@@ -22,7 +22,8 @@
 **/.terraform/*
 
 # .tfstate files
-**/.tfstate.*
+*.tfstate
+*.tfstate.*
 *.lock.hcl*
 
 # Crash log files
