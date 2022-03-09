@@ -10,8 +10,8 @@ provider "docker" {
 #registry_auth {
 #  address  = "https://login.docker.com/"
 #  username = "shaharco99@gmail.com"
-#  password = "shahar1804"
-#  }
+# password = "shahar1804"
+# }
 }
 resource "docker_image" "nginx" {
     name         = "nginx:latest"
