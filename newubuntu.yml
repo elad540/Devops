@@ -1,0 +1,70 @@
+
+- name: ubuntu new install
+  hosts: localhost
+  become: yes
+  tasks:
+  - name: update ubuntu
+    ansible.builtin.apt:
+      state: latest
+      update_cache: true
+      autoremove: true
+      autoclean: true
+      upgrade: dist
+
+
+  - name: Add Apt signing key google chrome
+    ansible.builtin.apt_key:
+        url: "https://dl.google.com/linux/linux_signing_key.pub"
+        state: present
+
+  - name: Add chrome repository into sources list
+    ansible.builtin.apt_repository:
+        repo: deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
+        state: present
+        filename: google-chrome
+
+  - name: Install google-chrome-stable
+    ansible.builtin.apt:
+        name: "google-chrome-stable"
+        state: latest
+        update_cache: true
+
+
+  - name: terraform install
+    tags : terraform
+    unarchive:
+      src: https://releases.hashicorp.com/terraform/1.1.7/terraform_1.1.7_linux_amd64.zip
+      dest: /usr/bin
+      remote_src: True
+#
+#  - name: Linux/Unix | Find all versions of Terraform
+#    tags : terraform
+#    uri:
+#      url: https://releases.hashicorp.com/terraform/index.json
+#      return_content: yes
+#    register: terraform_index
+#    check_mode: no
+#
+#  - name: Linux/Unix | Finds the latest Terraform version when latest var is define
+#    tags : terraform
+#    ignore_errors: yes
+#    set_fact:
+#      terraform_version_to_install: "{{(terraform_index.content | from_json) linux_amd64 | reject('search','linux_amd64')}}"
+#
+#
+#  # This task avoids downloading Terraform every time
+#  - name: Linux/Unix | Check if Terraform is present with the right version
+#    tags : terraform
+#    command: "{{terraform_path}}/terraform -version"
+#    register: terraform_installed_version
+#    ignore_errors: yes
+#    changed_when: false
+#    failed_when: false
+#
+#  - name: Linux/Unix | Install Terraform
+#    tags : terraform
+#    unarchive:
+#      src: "{{ terraform_pkg_url }}"
+#      dest: "/usr/local/bin/"
+#      remote_src: yes
+#    when: terraform_version_to_install not in ( terraform_installed_version.stdout_lines | default(['empty'], true) | first )
