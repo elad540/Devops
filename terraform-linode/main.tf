@@ -15,11 +15,11 @@ resource "linode_instance" "example_instance" {
   count = 0
   label = "kala-${count.index + 1}"
   image = "linode/ubuntu14.04lts"
-  region = "eu-central"
+  region = region
   type = "g6-nanode-1"
   swap_size = 1024
-  authorized_keys = [authorized_key]
-  root_pass = ""
+  authorized_keys = authorized_key
+  root_pass = root_pass
   backups_enabled = false
   booted = true
   tags: [ "free" ]
@@ -37,7 +37,9 @@ variable "root_pass" {
   type = string
 }
 
-
+variable "region" {
+  type = string
+}
 
 
 
