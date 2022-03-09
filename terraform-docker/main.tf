@@ -7,11 +7,6 @@ required_providers {
 }
 }
 provider "docker" {
-#registry_auth {
-#  address  = "https://login.docker.com/"
-#  username = "shaharco99@gmail.com"
-# password = "shahar1804"
-# }
 }
 resource "docker_image" "jenkins" {
     name         = "jenkins/jenkins:latest"
@@ -24,11 +19,11 @@ resource "docker_image" "jenkins" {
 #  }
 
 resource "docker_container" "jenkins" {
-image  = docker_image.jenkins.latest
-name   = "jenkins"
-attach = false
-must_run = true
-network_mode = "host"
+  image        = docker_image.jenkins.latest
+  name         = "jenkins"
+  attach       = false
+  must_run     = true
+  network_mode = "host"
   ports {
     internal = 8080
     external = 8000
