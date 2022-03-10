@@ -45,7 +45,7 @@
 #    register: terraform_index
 #    check_mode: no
 #
-#  - name: Linux/Unix | Finds the latest Terraform version when latest var is define
+#  - name: Linux/Unix | Finds the latest Terraform version when latest var is defined
 #    tags : terraform
 #    ignore_errors: yes
 #    set_fact:
@@ -63,7 +63,7 @@
 #
 #  - name: Linux/Unix | Install Terraform
 #    tags : terraform
-#    unarchive:
+#    unarchived:
 #      src: "{{ terraform_pkg_url }}"
 #      dest: "/usr/local/bin/"
 #      remote_src: yes
