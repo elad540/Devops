@@ -1,4 +1,4 @@
-#docker exec -it jenkins bash
+#sudo docker exec -it jenkins bash
 #cat /var/jenkins_home/secrets/initialAdminPassword
 terraform {
 required_providers {
