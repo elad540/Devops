@@ -7,3 +7,4 @@ output "image_id" {
   description = "ID of the Docker image"
   value       = docker_image.jenkins.id
 }
+

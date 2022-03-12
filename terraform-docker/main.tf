@@ -4,12 +4,10 @@ terraform {
 required_providers {
   docker = {
     source  = "kreuzwerker/docker"
-    version = "2.16.0"
     }
   }
 }
-provider "docker" {
-}
+
 resource "docker_image" "jenkins" {
     name         = "jenkins/jenkins:latest"
     keep_locally = false
@@ -26,6 +24,8 @@ resource "docker_container" "jenkins" {
   attach       = false
   must_run     = true
   network_mode = "host"
+  #uncomment to not delete container when destroy
+ # rm = true
   ports {
     internal = 8080
     external = 8000
