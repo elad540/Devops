@@ -1,10 +1,11 @@
 version: '3.8'
 services:
     jenkins:
-      image: "jenkins/jenkins:lts"
+      image: "jenkins/jenkins:latest"
       ports:
-      - "8080:8080"
-      - "50000:50000"
+      - "8181:8181"
+      - "50001:50001"
       build:
         context: .
         network: bridge
+

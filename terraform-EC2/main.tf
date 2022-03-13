@@ -16,7 +16,9 @@ terraform {
   }
 }
 provider "aws" {
-  profile = "default"
+#  profile = "default"
+#  shared_credentials_file = var.credentials_files
+#  shared_config_files = var.config_files
   region  = var.region
   access_key = var.access_key
   secret_key = var.secret_key
@@ -38,12 +40,12 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
-resource "aws_instance" "web" {
-  count = 2
+resource "aws_instance" "ubuntu" {
+  count         = 2
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t3.micro"
   tags = {
-    Name = "ubuntu_20.04_server_${count.index}"
+    Name = "ubuntu_20.04_server_${count.index + 1}"
   }
 }
 
