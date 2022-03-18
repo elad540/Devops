@@ -1,0 +1,7 @@
+---
+- name: Orchestrate webserver setup
+  hosts: webservers
+  become: True
+  tasks:
+    - import_role:
+        name: webserver

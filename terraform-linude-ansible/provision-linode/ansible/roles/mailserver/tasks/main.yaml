@@ -1,0 +1,230 @@
+---
+- name: Create virtual mail user
+  user:
+    name: vmail
+    comment: "virtual mail user"
+    home: /var/spool/vmail
+    shell: /usr/sbin/nologin
+    system: yes
+    state: present
+
+- name: Install SQLite
+  apt:
+    name: sqlite3
+    state: present
+
+- name: Install Postfix
+  apt:
+    name:
+     - postfix
+     - postfix-sqlite
+    state: present
+
+- name: Install Dovecot
+  apt:
+    name:
+     - dovecot-pop3d
+     - dovecot-sqlite
+     - dovecot-lmtpd
+    state: present
+
+- name: Install SpamAssassin
+  apt:
+    name:
+      - spamassassin
+    state: present
+
+- name: Install OpenDKIM
+  apt:
+    name:
+      - opendkim
+      - opendkim-tools
+    state: present
+
+- name: Copy Postfix main configuration template
+  template:
+    src: templates/postfix/main.cf.j2
+    dest: /etc/postfix/main.cf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Copy Postfix configuration files
+  copy:
+    src: "{{item.src}}"
+    dest: "{{item.dest}}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - {
+        src: "files/postfix/master.cf",
+        dest: "/etc/postfix/master.cf",
+      }
+    - {
+        src: "files/postfix/sqlite-virtual-mailbox-domains.cf",
+        dest: "/etc/postfix/sqlite-virtual-mailbox-domains.cf",
+      }
+    - {
+        src: "files/postfix/sqlite-virtual-mailbox-maps.cf",
+        dest: "/etc/postfix/sqlite-virtual-mailbox-maps.cf",
+      }
+    - {
+        src: "files/postfix/sqlite-virtual-alias-maps.cf",
+        dest: "/etc/postfix/sqlite-virtual-alias-maps.cf",
+      }
+
+- name: Copy Dovecot SSL configuration template
+  template:
+    src: templates/dovecot/10-ssl.conf.j2
+    dest: /etc/dovecot/conf.d/10-ssl.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Copy Dovecot configuration files
+  copy:
+    src: "{{item.src}}"
+    dest: "{{item.dest}}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - {
+        src: "files/dovecot/10-mail.conf",
+        dest: "/etc/dovecot/conf.d/10-mail.conf"
+      }
+    - {
+        src: "files/dovecot/10-auth.conf",
+        dest: "/etc/dovecot/conf.d/10-auth.conf"
+      }
+    - {
+        src: "files/dovecot/10-master.conf",
+        dest: "/etc/dovecot/conf.d/10-master.conf"
+      }
+    - {
+        src: "files/dovecot/dovecot-sql.conf.ext",
+        dest: "/etc/dovecot/dovecot-sql.conf.ext"
+      }
+    - {
+        src: "files/dovecot/auth-sql.conf.ext",
+        dest: "/etc/dovecot/conf.d/auth-sql.conf.ext"
+      }
+
+- name: Copy SpamAssassin configuration files
+  copy:
+    src: "{{item.src}}"
+    dest: "{{item.dest}}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - {
+        src: "files/spamassassin/local.cf",
+        dest: "/etc/mail/spamassassin/local.cf",
+      }
+    - {
+        src: "files/spamassassin/default",
+        dest: "/etc/default/spamassassin",
+      }
+
+# - name: Update SpamAssassin database
+#   command: sa-update
+
+- name: Create OpenDKIM directories
+  file:
+    path: /etc/opendkim/keys/{{domain}}
+    state: directory
+
+- name: Copy OpenDKIM configuration templates
+  template:
+    src: "{{item.src}}"
+    dest: "{{item.dest}}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - {
+        src: "templates/opendkim/TrustedHosts.j2",
+        dest: "/etc/opendkim/TrustedHosts"
+      }
+    - {
+        src: "templates/opendkim/KeyTable.j2",
+        dest: "/etc/opendkim/KeyTable"
+      }
+    - {
+        src: "templates/opendkim/SigningTable.j2",
+        dest: "/etc/opendkim/SigningTable"
+      }
+
+- name: Copy OpenDKIM configuration files
+  copy:
+    src: "{{item.src}}"
+    dest: "{{item.dest}}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - {
+        src: "files/opendkim/opendkim.conf",
+        dest: "/etc/opendkim.conf"
+      }
+    - {
+        src: "files/opendkim/default",
+        dest: "/etc/default/opendkim"
+      }
+
+- name: Generate OpenDKIM Keys
+  command: opendkim-genkey -s mail -d {{domain}}
+  args:
+    chdir: /etc/opendkim/keys/{{domain}}
+    creates: /etc/opendkim/keys/{{domain}}/mail.private
+
+- name: Set OpenDKIM mail key ownership
+  file:
+    path: /etc/opendkim/keys/{{domain}}/mail.private
+    owner: opendkim
+    group: opendkim
+    state: file
+
+- name: Extract public DKIM key for DNS
+  shell: grep -oP '\".*\"' mail.txt | tr "\n\"" " " | sed -e 's/ //g' | sed -e 's/;/; /g' > mail.dkim-value
+  args:
+    chdir: /etc/opendkim/keys/{{domain}}
+    executable: /bin/bash
+    creates: /etc/opendkim/keys/{{domain}}/mail.dkim-value
+
+- name: Copy primary mail account and aliases schema template
+  template:
+    src: templates/postfix/accounts.sqlite.sql.j2
+    dest: /etc/postfix/accounts.sqlite.sql
+    owner: root
+    group: root
+    mode: 0600
+
+- name: Configure primary mail account and aliases
+  shell: sqlite3 /etc/postfix/accounts.sqlite < /etc/postfix/accounts.sqlite.sql
+  args:
+    executable: /bin/bash
+    creates: /etc/postfix/accounts.sqlite
+
+- name: Restart installed services
+  systemd:
+    name: "{{item}}"
+    enabled: yes
+    state: restarted
+  with_items:
+    - spamassassin
+    - opendkim
+    - postfix
+    - dovecot
+
+- name: Update firewall rules
+  ufw:
+    name: "{{item}}"
+    rule: allow
+    state: enabled
+  with_items:
+    - Dovecot Secure POP3
+    - Postfix
+    - OpenSSH
