@@ -11,23 +11,19 @@ provider "linode" {
   token = "token"
 }
 
-resource "linode_instance" "example_instance" {
-  count = 0
-  label = "kala-${count.index + 1}"
-  image = "linode/ubuntu14.04lts"
-  region = region
-  type = "g6-nanode-1"
-  swap_size = 1024
-  authorized_keys = authorized_key
-  root_pass = root_pass
-  backups_enabled = false
-  booted = true
-  tags: [ "free" ]
+module "linode_provision" {
+  source = "./modules/linode_provision"
+  token = var.token
+  authorized_key = var.authorized_key
+  region = var.region
+  root_pass = var.root_pass
 }
 
-variable "authorized_key" {
-    type = string
+module "setup" {
+  source = "./modules/setup"
+  host = module.linode_provision.linode_provision_ip_address
 }
+
 
 variable "token" {
   type = string
@@ -40,6 +36,7 @@ variable "root_pass" {
 variable "region" {
   type = string
 }
-
-
+variable "authorized_key" {
+  type = string
+}
 
