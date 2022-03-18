@@ -1,0 +1,110 @@
+- name: Enable universe
+  apt_repository:
+    repo: "{{item}}"
+    state: present
+  with_items:
+    - deb http://archive.ubuntu.com/ubuntu {{ansible_lsb.codename}} universe
+    - deb http://archive.ubuntu.com/ubuntu {{ansible_lsb.codename}}-security universe
+    - deb http://archive.ubuntu.com/ubuntu {{ansible_lsb.codename}}-updates universe
+
+- name: Generate a new DH group file - THIS MAY TAKE A LONG TIME
+  command: openssl dhparam -out /etc/ssl/private/dhparams_4096.pem 4096
+  args:
+    creates: /etc/ssl/private/dhparams_4096.pem
+
+- name: Add certbot PPA repository
+  apt_repository:
+    repo: ppa:certbot/certbot
+    state: present
+
+- name: Install certbot
+  apt:
+    name: certbot
+    state: present
+
+- name: Install SSL/TLS certificates
+  command: certbot certonly --standalone -n --agree-tos -m {{username}}@{{domain}} --rsa-key-size 4096 -d {{domain}},www.{{domain}},mail.{{domain}}
+  args:
+    creates: /etc/letsencrypt/live/{{domain}}/
+
+- name: Copy certificate renewal job
+  copy:
+    src: files/cron/renew-certificates
+    dest: /etc/cron.weekly/renew-certificates
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Install Nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: Install PHP
+  apt:
+    name:
+      - php-fpm
+      - php-curl
+      - php-intl
+      - php-pdo-mysql
+      - php-simplexml
+    state: present
+
+- name: Install Composer
+  apt:
+    name:
+      - zip
+      - unzip
+      - composer
+    state: present
+
+- name: Copy Nginx site configuration template
+  template:
+    src: "templates/nginx/mydomain.conf.j2"
+    dest: "/etc/nginx/sites-available/{{domain}}.conf"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Create web directories
+  file:
+    path: /var/www/{{domain}}/www/public
+    state: directory
+
+- name: Set web directories ownership and permissions
+  file:
+    path: "{{item.path}}"
+    owner: www-data
+    group: www-data
+    mode: "{{item.mode}}"
+    state: directory
+  with_items:
+    - { path: "/var/www/{{domain}}", mode: "u=rwX,g=rwXs,o=rX" }
+    - { path: "/var/www/{{domain}}/www", mode: "u=rwX,g=rwX,o=rX" }
+    - { path: "/var/www/{{domain}}/www/public", mode: "u=rwX,g=rwX,o=rX" }
+
+- name: Disable Nginx default site
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: Enable Nginx site
+  file:
+    src: /etc/nginx/sites-available/{{domain}}.conf
+    dest: /etc/nginx/sites-enabled/{{domain}}.conf
+    state: link
+
+- name: Restart installed services
+  systemd:
+    name: nginx
+    enabled: yes
+    state: restarted
+
+- name: Update firewall rules
+  ufw:
+    name: "{{item}}"
+    rule: allow
+    state: enabled
+  with_items:
+    - Nginx Full
+    - OpenSSH

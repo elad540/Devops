@@ -1,0 +1,7 @@
+linode_token = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+domain = "example.com"
+username = "tboronczyk"
+root_ssh_pubkey = "../keys/example-root.pub"
+root_ssh_privkey = "../keys/example-root"
+user_ssh_pubkey = "../keys/example-tboronczyk.pub"
+user_ssh_privkey = "../keys/example-tboronczyk"
