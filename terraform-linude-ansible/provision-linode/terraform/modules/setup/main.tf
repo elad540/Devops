@@ -3,8 +3,8 @@ resource "null_resource" "setup" {
         connection {
             type = "ssh"
             user = "root"
-            host = "${var.host}"
-            private_key = "${chomp(file(var.root_ssh_privkey))}"
+            host = var.host
+            private_key = chomp(file(var.root_ssh_privkey))
         }
 
         inline = [
@@ -31,10 +31,10 @@ resource "null_resource" "ansible" {
         command = "./generate-inventory.sh > ./ansible-inventory"
 
         environment {
-            USERNAME = "${var.username}"
-            DOMAIN = "${var.domain}"
-            SSH_PRIVKEY = "${var.user_ssh_privkey}"
-            HOST_IP = "${var.host}"
+            USERNAME = var.username
+            DOMAIN = var.domain
+            SSH_PRIVKEY = var.user_ssh_privkey
+            HOST_IP = var.host
         }
     }
 
