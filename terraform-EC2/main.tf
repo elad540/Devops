@@ -15,10 +15,8 @@ terraform {
     }
   }
 }
+
 provider "aws" {
-#  profile = "default"
-#  shared_credentials_file = var.credentials_files
-#  shared_config_files = var.config_files
   region  = var.region
   access_key = var.access_key
   secret_key = var.secret_key
@@ -41,20 +39,31 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "ubuntu" {
-  count         = 2  #change to create more instances
+  count         = 3  #change to create more instances
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t3.micro"
   tags = {
     Name = "ubuntu_20.04_server_${count.index + 1}"
   }
 }
-
+#
+#resource "null_resource" "after_aws_instance" {
+#  #Create Masters Inventory
+#  provisioner "local-exec" {
+#    command =  "echo  \"[EC2_hosts]\" > /home/shahar/Desktop/Devops/terraform-EC2/ansible/hosts"
+#  }
+#
+#  provisioner "local-exec" {
+#    command = "echo \"${format(public_ip_test)}\" >> /home/shahar/Desktop/Devops/terraform-EC2/ansible/hosts"
+#  }
+#}
 variable "credentials_files" {
   type    = list(string)
 }
 variable "config_files" {
   type    = list(string)
 }
+
 variable "security_token" {
   type    = string
 }
@@ -72,4 +81,3 @@ variable "access_key" {
 variable "secret_key" {
   type = string
 }
-
