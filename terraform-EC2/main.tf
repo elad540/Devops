@@ -39,24 +39,25 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "ubuntu" {
-  count         = 3  #change to create more instances
+  count         = 2  #change to create more instances
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t3.micro"
   tags = {
     Name = "ubuntu_20.04_server_${count.index + 1}"
   }
 }
-#
-#resource "null_resource" "after_aws_instance" {
-#  #Create Masters Inventory
-#  provisioner "local-exec" {
-#    command =  "echo  \"[EC2_hosts]\" > /home/shahar/Desktop/Devops/terraform-EC2/ansible/hosts"
-#  }
-#
-#  provisioner "local-exec" {
-#    command = "echo \"${format(public_ip_test)}\" >> /home/shahar/Desktop/Devops/terraform-EC2/ansible/hosts"
-#  }
-#}
+
+resource "null_resource" "after_aws_instance" {
+  depends_on = [aws_instance.ubuntu]
+  #Create Masters Inventory
+  provisioner "local-exec" {
+    command =  "echo  \"[EC2_hosts]\" > ./ansible/hosts"
+  }
+  #add public hosts to hosts file
+  provisioner "local-exec" {
+    command = "terraform output -json hosts_names >> ./ansible/hosts"
+  }
+}
 variable "credentials_files" {
   type    = list(string)
 }
