@@ -1,3 +1,5 @@
+#hosts files
+*/ansible/hosts
 # User-specific stuff:
 **/.idea/**
 **/.idea/tasks.xml
