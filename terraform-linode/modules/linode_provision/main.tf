@@ -27,8 +27,8 @@ resource "null_resource" "after_linode_instance" {
   provisioner "local-exec" {
     command =  "echo  \"[linode_hosts]\" > ./ansible/hosts"
   }
-  #add public hosts to hosts file
+  #add hosts to Ansible Inventory file
   provisioner "local-exec" {
-    command = "terraform output -json ip_address >> ./ansible/hosts"
+    command = "terraform output -json hosts_names >> ./ansible/hosts"
   }
 }
