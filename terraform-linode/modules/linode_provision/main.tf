@@ -10,7 +10,7 @@ terraform {
 resource "linode_instance" "ubuntu" {
   count = 0
   label = "kala-${count.index + 1}"
-  image = "linode/ubuntu14.04lts" #change for newer version
+  image = "linode/ubuntu20.04lts" #change for newer version
   region = region
   type = "g6-nanode-1"
   swap_size = 1024
@@ -19,7 +19,7 @@ resource "linode_instance" "ubuntu" {
   backups_enabled = false
   booted = true
   watchdog_enabled = true
-  tags= [ "free" ]
+  tags= [ "free" , "ubuntu20.4"]
 }
 
 resource "null_resource" "after_linode_instance" {
