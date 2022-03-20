@@ -21,7 +21,6 @@ module "linode_provision" {
 
 module "setup" {
   source = "./modules/setup"
-  host = module.linode_provision.linode_provision_ip_address
 }
 
 
