@@ -2,6 +2,7 @@
 #  value = "${linode_domain.ubuntu.id}"
 #}
 
-output "linode_provision_ip_address" {
-  value = "${linode_instance.ubuntu.ip_address}"
+output "ip_address" {
+  description = "IP address of the linode instance"
+  value = join("\n",linode_instance.ubuntu.*.ip_address)
 }

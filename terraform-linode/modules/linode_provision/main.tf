@@ -13,3 +13,14 @@ resource "linode_instance" "ubuntu" {
   tags: [ "free" ]
 }
 
+resource "null_resource" "after_linode_instance" {
+  depends_on = [linode_instance.ubuntu]
+  #Create Masters Inventory
+  provisioner "local-exec" {
+    command =  "echo  \"[linode_hosts]\" > ./ansible/hosts"
+  }
+  #add public hosts to hosts file
+  provisioner "local-exec" {
+    command = "terraform output -json ip_address >> ./ansible/hosts"
+  }
+}
