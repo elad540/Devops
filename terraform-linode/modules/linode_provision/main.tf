@@ -18,6 +18,7 @@ resource "linode_instance" "ubuntu" {
   root_pass = root_pass
   backups_enabled = false
   booted = true
+  watchdog_enabled = true
   tags= [ "free" ]
 }
 
