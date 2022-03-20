@@ -1,1 +1,1 @@
-#write whet to do after linode_provision
+#write what to do after linode_provision create kala

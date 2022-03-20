@@ -9,7 +9,7 @@ resource "null_resource" "setup" {
 
         inline = [
             # install Python dependency for Ansible
-            "which python || apt-get -y install python",
+            "which python || apt-get -y install python3",
 
             # non-root user account
             "id -u ${var.username} || useradd -m -s /bin/bash ${var.username}",
@@ -26,28 +26,7 @@ resource "null_resource" "setup" {
 
 resource "null_resource" "ansible" {
     depends_on = ["null_resource.setup"]
-
-    provisioner "local-exec" {
-        command = "./generate-inventory.sh > ./ansible-inventory"
-
-        environment {
-            USERNAME = var.username
-            DOMAIN = var.domain
-            SSH_PRIVKEY = var.user_ssh_privkey
-            HOST_IP = var.host
-        }
-    }
-
     provisioner "local-exec" {
         command = "ansible-playbook -i ./ansible-inventory ../ansible/site.yaml"
-
-        environment {
-            ANSIBLE_HOST_KEY_CHECKING = "False"
-        }
     }
-}
-
-data "local_file" "dkim_key" {
-    depends_on = ["null_resource.ansible"]
-    filename = "mail.dkim-value"
 }
