@@ -1,5 +1,5 @@
 #output "linode_provision_domain_id" {
-#  value = "${linode_domain.ubuntu.id}"
+#  value =  join("\n",linode_instance.ubuntu.*.ipv4)
 #}
 
 output "hosts_names" {

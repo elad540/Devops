@@ -1,1 +1,0 @@
-#write what to do after linode_provision create kala
