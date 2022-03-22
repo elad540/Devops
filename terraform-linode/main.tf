@@ -6,36 +6,18 @@ terraform {
     }
   }
 }
-
+provider "digitalocean" {
+  token = var.tokendig
+}
 provider "linode" {
   token = "token"
 }
 
-module "linode_provision" {
-  source = "./modules/linode_provision"
-  token = var.token
-  authorized_key = var.authorized_key
-  region = var.region
-  root_pass = var.root_pass
-}
 
-module "setup" {
-  source = "./modules/setup"
-}
+#module "setup" {
+#  source = "./modules/setup"
+#}
 
-
-variable "token" {
+variable "tokendig" {
   type = string
 }
-
-variable "root_pass" {
-  type = string
-}
-
-variable "region" {
-  type = string
-}
-variable "authorized_key" {
-  type = string
-}
-
