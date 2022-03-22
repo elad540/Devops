@@ -30,7 +30,7 @@ resource "linode_instance" "ubuntu" {
 resource "digitalocean_record" "www" {
   domain = "kala-crm.co.il"
   type   = "A"
-  name   = linode_instance.ubuntu.label
+  name   = linode_instance.ubuntu.*.label
   ttl    =  1800
   value  = linode_instance.ubuntu.*.ipv4
 }
@@ -38,7 +38,7 @@ resource "digitalocean_record" "www" {
 resource "digitalocean_record" "nop" {
   domain = "kala-crm.co.il"
   type   = "A"
-  name   = "kala-" + linode_instance.ubuntu.label
+  name   = "kala-" + linode_instance.ubuntu.*.label
   ttl    =  1800
   value  = linode_instance.ubuntu.*.ipv4
 }
