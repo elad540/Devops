@@ -26,6 +26,21 @@ resource "linode_instance" "ubuntu" {
   tags= [ "free" , "ubuntu20.4"]
 }
 
+resource "null_resource" "after_linode_instance" {
+  triggers = {
+    always_run = timestamp()
+  }
+  depends_on = [linode_instance.ubuntu]
+  #create Ansible Inventory when not excite
+  provisioner "local-exec" {
+    command = "mkdir -p ansible && echo  \"[linode_hosts]\" > ./ansible/Inventory "
+  }
+  #add hosts name to Ansible Inventory
+  provisioner "local-exec" {
+    command = "terraform output -raw hosts_names >> ./ansible/Inventory"
+    when = create
+  }
+}
 # Add an A record to the domain for www.example.com.
 resource "digitalocean_record" "www" {
   domain = "kala-crm.co.il"
@@ -35,6 +50,7 @@ resource "digitalocean_record" "www" {
   value  = linode_instance.ubuntu.*.ipv4
 }
 
+#TODO maybe not needed if the label is not the customer name
 resource "digitalocean_record" "nop" {
   domain = "kala-crm.co.il"
   type   = "A"

@@ -1,9 +1,9 @@
 resource "null_resource" "after_aws_instance" {
   triggers = {
-    always_run = "${timestamp()}"
+    always_run = timestamp()
   }
   depends_on = [aws_instance.ubuntu]
-  #delete Ansible Inventory when destroy
+  #create Ansible Inventory when destroy
   provisioner "local-exec" {
     command = "mkdir -p ansible && echo  \"[EC2_hosts]\" > ./ansible/hosts "
   }
