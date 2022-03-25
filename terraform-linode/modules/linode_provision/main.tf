@@ -23,7 +23,7 @@ resource "linode_instance" "ubuntu" {
   backups_enabled = false
   booted = true
   watchdog_enabled = true
-  tags= [ "free" , "ubuntu20.4"]
+  tags= ["ubuntu20.4"]
 }
 
 resource "null_resource" "after_linode_instance" {
