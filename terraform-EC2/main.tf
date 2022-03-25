@@ -37,13 +37,23 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "ubuntu" {
-  count         = 1  #change to create more instances
+  count         = 2  #change to create more instances
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t3.micro"
   tags = {
     Name = "ubuntu_20.04_server_${count.index + 1}"
   }
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags, e.g. because of a management agent
+      # updates these based on some ruleset managed elsewhere.
+      tags,
+      # and instance type.
+      instance_type
+    ]
+  }
 }
+
 
 variable "credentials_files" {
   type    = list(string)
