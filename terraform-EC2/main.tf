@@ -28,7 +28,7 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20220420"]
   }
   filter {
     name   = "virtualization-type"
@@ -41,7 +41,7 @@ resource "aws_instance" "ubuntu" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t3.micro"
   tags = {
-    Name = "ubuntu_20.04_server_${count.index + 1}"
+    Name = "ubuntu_22.04_server_${count.index + 1}"
   }
   lifecycle {
     ignore_changes = [
