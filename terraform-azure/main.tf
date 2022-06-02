@@ -1,27 +1,12 @@
-# Azure Provider source and version being used
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "=3.0.0"
-    }
-  }
-}
-
-  # Configure the Microsoft Azure Provider
-  provider "azurerm" {
-  features {}
-  }
-
   resource   "azurerm_resource_group"   "rg"   {
   name   =   "my-first-terraform-rg"
-  location   =   "northeurope"
+  location   =   "centralus"
   }
 
   resource   "azurerm_virtual_network"   "myvnet"   {
   name   =   "my-vnet"
   address_space   =   [ "10.0.0.0/16" ]
-  location   =   "northeurope"
+  location   =   "centralus"
   resource_group_name   =   azurerm_resource_group.rg.name
   }
 
@@ -34,7 +19,7 @@ terraform {
 
   resource   "azurerm_public_ip"   "myvm1publicip"   {
   name   =   "pip1"
-  location   =   "northeurope"
+  location   =   "centralus"
   resource_group_name   =   azurerm_resource_group.rg.name
   allocation_method   =   "Dynamic"
   sku   =   "Basic"
@@ -42,7 +27,7 @@ terraform {
 
   resource   "azurerm_network_interface"   "myvm1nic"   {
   name   =   "myvm1-nic"
-  location   =   "northeurope"
+  location   =   "centralus"
   resource_group_name   =   azurerm_resource_group.rg.name
 
     ip_configuration   {
@@ -55,7 +40,7 @@ terraform {
 
   resource   "azurerm_windows_virtual_machine"   "example"   {
   name                    =   "myvm1"
-  location                =   "northeurope"
+  location                =   "centralus"
   resource_group_name     =   azurerm_resource_group.rg.name
   network_interface_ids   =   [ azurerm_network_interface.myvm1nic.id ]
   size                    =   "Standard_B1s"
