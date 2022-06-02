@@ -1,61 +1,69 @@
-  resource   "azurerm_resource_group"   "rg"   {
-  name   =   "my-first-terraform-rg"
-  location   =   "centralus"
+  resource "random_pet" "rg-name" {
+    prefix    = var.resource_group_name_prefix
   }
 
-  resource   "azurerm_virtual_network"   "myvnet"   {
-  name   =   "my-vnet"
-  address_space   =   [ "10.0.0.0/16" ]
-  location   =   "centralus"
-  resource_group_name   =   azurerm_resource_group.rg.name
+  resource "azurerm_resource_group" "rg" {
+    name      = random_pet.rg-name.id
+    location  = var.resource_group_location
+  }
+  resource   "azurerm_virtual_network"   "myterraformnetwork"   {
+    name                = "myVnet"
+    address_space       = ["10.0.0.0/16"]
+    location            = azurerm_resource_group.rg.location
+    resource_group_name = azurerm_resource_group.rg.name
   }
 
-  resource   "azurerm_subnet"   "frontendsubnet"   {
-  name   =   "frontendSubnet"
-  resource_group_name   =    azurerm_resource_group.rg.name
-  virtual_network_name   =   azurerm_virtual_network.myvnet.name
-  address_prefixes   =   ["10.0.1.0/24"]
+  resource "azurerm_subnet" "myterraformsubnet" {
+    name                 = "mySubnet"
+    resource_group_name  = azurerm_resource_group.rg.name
+    virtual_network_name = azurerm_virtual_network.myterraformnetwork.name
+    address_prefixes     = ["10.0.1.0/24"]
   }
 
-  resource   "azurerm_public_ip"   "myvm1publicip"   {
-  name   =   "pip1"
-  location   =   "centralus"
-  resource_group_name   =   azurerm_resource_group.rg.name
-  allocation_method   =   "Dynamic"
-  sku   =   "Basic"
+    resource "azurerm_public_ip" "myterraformpublicip" {
+      name                = "myPublicIP"
+      location            = azurerm_resource_group.rg.location
+      resource_group_name = azurerm_resource_group.rg.name
+      allocation_method   = "Dynamic"
   }
 
-  resource   "azurerm_network_interface"   "myvm1nic"   {
-  name   =   "myvm1-nic"
-  location   =   "centralus"
-  resource_group_name   =   azurerm_resource_group.rg.name
+  # Create network interface
+  resource "azurerm_network_interface" "myterraformnic" {
+    name                = "myNIC"
+    location            = azurerm_resource_group.rg.location
+    resource_group_name = azurerm_resource_group.rg.name
 
-    ip_configuration   {
-      name   =   "ipconfig1"
-      subnet_id   =   azurerm_subnet.frontendsubnet.id
-      private_ip_address_allocation   =   "Dynamic"
-      public_ip_address_id   =   azurerm_public_ip.myvm1publicip.id
+    ip_configuration {
+      name                          = "myNicConfiguration"
+      subnet_id                     = azurerm_subnet.myterraformsubnet.id
+      private_ip_address_allocation = "Dynamic"
+      public_ip_address_id          = azurerm_public_ip.myterraformpublicip.id
     }
-  }
 
-  resource   "azurerm_windows_virtual_machine"   "example"   {
-  name                    =   "myvm1"
-  location                =   "centralus"
-  resource_group_name     =   azurerm_resource_group.rg.name
-  network_interface_ids   =   [ azurerm_network_interface.myvm1nic.id ]
-  size                    =   "Standard_B1s"
-  admin_username          =   "adminuser"
-  admin_password          =   "Password123!"
 
-  source_image_reference {
-  publisher = "Canonical"
-  offer     = "UbuntuServer"
-  sku       = "18.04-LTS"
-  version   = "latest"
-  }
+    # Create virtual machine
+    resource "azurerm_linux_virtual_machine" "myterraformvm" {
+      name                  = "myVM"
+      location              = azurerm_resource_group.rg.location
+      resource_group_name   = azurerm_resource_group.rg.name
+      network_interface_ids = [azurerm_network_interface.myterraformnic.id]
+      size                  = "Standard_DS1_v2"
 
-  os_disk   {
-  caching             =   "ReadWrite"
-  storage_account_type   =   "Standard_LRS"
-  }
+      os_disk {
+        name                 = "myOsDisk"
+        caching              = "ReadWrite"
+        storage_account_type = "Premium_LRS"
+      }
+
+      source_image_reference {
+        publisher = "Canonical"
+        offer     = "UbuntuServer"
+        sku       = "18.04-LTS"
+        version   = "latest"
+      }
+
+      computer_name                   = "myvm"
+      admin_username                  = "azureuser"
+      disable_password_authentication = true
+    }
 }
