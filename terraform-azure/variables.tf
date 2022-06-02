@@ -4,6 +4,11 @@ variable "resource_group_name_prefix" {
 }
 
 variable "resource_group_location" {
-  default       = "eastus"
+  default       = "West Europe"
   description   = "Location of the resource group."
+}
+
+variable "vm_size" {
+  default       = "D2ads_v5"
+  description   = "The size of the vm."
 }
