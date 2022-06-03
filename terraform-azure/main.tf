@@ -26,7 +26,7 @@ resource "azurerm_public_ip" "test" {
   location                     = azurerm_resource_group.test.location
 }
 
-# Get public IPs
+# Get public IPs for output
 data "azurerm_public_ip" "test" {
   count                        = var.countVMs
   name                         = "test-${count.index}-pip"
