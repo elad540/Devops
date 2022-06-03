@@ -96,7 +96,7 @@ resource "tls_private_key" "example_ssh" {
 
 # Create virtual machine
 resource "azurerm_linux_virtual_machine" "myterraformvm" {
-  count                 = 2 #change to create more VMs
+  count                 = var.countVMs
   name                  = "ubuntu18-${count.index + 1}"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
@@ -104,7 +104,7 @@ resource "azurerm_linux_virtual_machine" "myterraformvm" {
   size                  = var.vm_size
 
   os_disk {
-    name                 = "myOsDisk"
+    name                 = "myOsDisk-${count.index + 1}"
     caching              = "ReadWrite"
     storage_account_type = "Premium_LRS"
   }

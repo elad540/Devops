@@ -41,7 +41,7 @@ resource "aws_instance" "ubuntu" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t3.micro"
   tags = {
-    Name = "ubuntu_22.04_server_${count.index + 1}"
+    Name = "ubuntu_22.04_${count.index + 1}"
   }
   lifecycle {
     ignore_changes = [

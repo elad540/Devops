@@ -12,3 +12,8 @@ variable "vm_size" {
   default       = "Standard_DS1"
   description   = "The size of the vm."
 }
+
+variable "countVMs" {
+  default       = "1" #change to create more VMs
+  description   = "The amount of VMs"
+}
