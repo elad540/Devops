@@ -1,7 +1,7 @@
 
 output "public_ips" {
   description = "Public IP address of the Azure instance"
-  value = join("\n",  data.azurerm_public_ip.test.*.ip_address)
+  value = join("\n",  azurerm_public_ip.test.*.ip_address)
 }
 
 output "hosts_name" {
