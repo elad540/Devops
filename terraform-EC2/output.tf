@@ -14,6 +14,6 @@ output "hosts_names" {
 }
 #
 #output "list_of_public_ips_and_hosts" {
-#  description = "private IP address and hosts name of the EC2 instance"
-#  value = join("\n",concat(aws_instance.ubuntu.*.tags.Name, aws_instance.ubuntu.*.private_ip))
+#  description = "Public IP address and hosts name of the EC2 instance"
+#  value = join("\n",concat(aws_instance.ubuntu.*.tags.Name, aws_instance.ubuntu.*.public_ip))
 #}
