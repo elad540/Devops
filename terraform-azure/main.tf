@@ -3,7 +3,7 @@ resource "random_pet" "rg-name" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name      = "test"
+  name      = random_pet.rg-name.id
   location  = var.resource_group_location
 }
 
@@ -96,11 +96,12 @@ resource "tls_private_key" "example_ssh" {
 
 # Create virtual machine
 resource "azurerm_linux_virtual_machine" "myterraformvm" {
-  name                  = "ubuntu22"
+  count                 = 2 #change to create more VMs
+  name                  = "ubuntu18-${count.index + 1}"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.myterraformnic.id]
-  size                  = "Standard_F2"
+  size                  = var.vm_size
 
   os_disk {
     name                 = "myOsDisk"
@@ -111,7 +112,7 @@ resource "azurerm_linux_virtual_machine" "myterraformvm" {
   source_image_reference {
     publisher = "Canonical"
     offer     = "UbuntuServer"
-    sku       = "20.04-LTS"
+    sku       = "18.04-LTS"
     version   = "latest"
   }
 
