@@ -14,6 +14,6 @@ variable "vm_size" {
 }
 
 variable "countVMs" {
-  default       = "1" #change to create more VMs
+  default       = "2" #change to create more VMs
   description   = "The amount of VMs"
 }

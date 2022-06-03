@@ -1,131 +1,109 @@
-resource "random_pet" "rg-name" {
-  prefix    = var.resource_group_name_prefix
+resource "azurerm_resource_group" "test" {
+  name     = "RG_test"
+  location = var.resource_group_location
 }
 
-resource "azurerm_resource_group" "rg" {
-  name      = random_pet.rg-name.id
-  location  = var.resource_group_location
-}
-
-# Create virtual network
-resource "azurerm_virtual_network" "myterraformnetwork" {
-  name                = "myVnet"
+resource "azurerm_virtual_network" "test" {
+  name                = "virtual_network_test"
   address_space       = ["10.0.0.0/16"]
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.test.location
+  resource_group_name = azurerm_resource_group.test.name
 }
 
-# Create subnet
-resource "azurerm_subnet" "myterraformsubnet" {
-  name                 = "mySubnet"
-  resource_group_name  = azurerm_resource_group.rg.name
-  virtual_network_name = azurerm_virtual_network.myterraformnetwork.name
-  address_prefixes     = ["10.0.1.0/24"]
+resource "azurerm_subnet" "test" {
+  name                 = "subnet_test"
+  resource_group_name  = azurerm_resource_group.test.name
+  virtual_network_name = azurerm_virtual_network.test.name
+  address_prefixes     = ["10.0.2.0/24"]
 }
 
 # Create public IPs
-resource "azurerm_public_ip" "myterraformpublicip" {
-  name                = "myPublicIP"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  allocation_method   = "Dynamic"
+data "azurerm_public_ip" "test" {
+  count                        = var.countVMs
+  name                         = "test-${count.index}-pip"
+  resource_group_name          = azurerm_resource_group.test.name
 }
 
-# Create Network Security Group and rule
-resource "azurerm_network_security_group" "myterraformnsg" {
-  name                = "myNetworkSecurityGroup"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-
-  security_rule {
-    name                       = "SSH"
-    priority                   = 1001
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "22"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-}
-
-# Create network interface
-resource "azurerm_network_interface" "myterraformnic" {
-  name                = "myNIC"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+resource "azurerm_network_interface" "test" {
+  count               = var.countVMs
+  name                = "NIC_${count.index + 1}"
+  location            = azurerm_resource_group.test.location
+  resource_group_name = azurerm_resource_group.test.name
 
   ip_configuration {
-    name                          = "myNicConfiguration"
-    subnet_id                     = azurerm_subnet.myterraformsubnet.id
+    name                          = "testConfiguration"
+    subnet_id                     = azurerm_subnet.test.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.myterraformpublicip.id
+    public_ip_address_id          = element(data.azurerm_public_ip.test.*.id, count.index)
   }
 }
 
-# Connect the security group to the network interface
-resource "azurerm_network_interface_security_group_association" "example" {
-  network_interface_id      = azurerm_network_interface.myterraformnic.id
-  network_security_group_id = azurerm_network_security_group.myterraformnsg.id
+resource "azurerm_managed_disk" "test" {
+  count                = var.countVMs
+  name                 = "datadisk_existing_${count.index + 1}"
+  location             = azurerm_resource_group.test.location
+  resource_group_name  = azurerm_resource_group.test.name
+  storage_account_type = "Standard_LRS"
+  create_option        = "Empty"
+  disk_size_gb         = "1023"
 }
 
-# Generate random text for a unique storage account name
-resource "random_id" "randomId" {
-  keepers = {
-    # Generate a new ID only when a new resource group is defined
-    resource_group = azurerm_resource_group.rg.name
-  }
-  byte_length = 8
-}
-
-# Create storage account for boot diagnostics
-resource "azurerm_storage_account" "mystorageaccount" {
-  name                     = "diag${random_id.randomId.hex}"
-  location                 = azurerm_resource_group.rg.location
-  resource_group_name      = azurerm_resource_group.rg.name
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-}
-
-# Create (and display) an SSH key
-resource "tls_private_key" "example_ssh" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
-}
-
-# Create virtual machine
-resource "azurerm_linux_virtual_machine" "myterraformvm" {
+resource "azurerm_virtual_machine" "test" {
   count                 = var.countVMs
-  name                  = "ubuntu18-${count.index + 1}"
-  location              = azurerm_resource_group.rg.location
-  resource_group_name   = azurerm_resource_group.rg.name
-  network_interface_ids = [azurerm_network_interface.myterraformnic.id]
-  size                  = var.vm_size
+  name                  = "virtual_machine_${count.index + 1}"
+  location              = azurerm_resource_group.test.location
+  resource_group_name   = azurerm_resource_group.test.name
+  network_interface_ids = [element(azurerm_network_interface.test.*.id, count.index)]
+  vm_size               = var.vm_size
 
-  os_disk {
-    name                 = "myOsDisk-${count.index + 1}"
-    caching              = "ReadWrite"
-    storage_account_type = "Premium_LRS"
-  }
+  # Uncomment this line to delete the OS disk automatically when deleting the VM
+   delete_os_disk_on_termination = true
 
-  source_image_reference {
+  # Uncomment this line to delete the data disks automatically when deleting the VM
+   delete_data_disks_on_termination = true
+
+  storage_image_reference {
     publisher = "Canonical"
     offer     = "UbuntuServer"
     sku       = "18.04-LTS"
     version   = "latest"
   }
 
-  computer_name                   = "myvm"
-  admin_username                  = "azureuser"
-  disable_password_authentication = true
-
-  admin_ssh_key {
-    username   = "azureuser"
-    public_key = tls_private_key.example_ssh.public_key_openssh
+  storage_os_disk {
+    name              = "myosdisk_${count.index + 1}"
+    caching           = "ReadWrite"
+    create_option     = "FromImage"
+    managed_disk_type = "Standard_LRS"
   }
 
-  boot_diagnostics {
-    storage_account_uri = azurerm_storage_account.mystorageaccount.primary_blob_endpoint
+  # Optional data disks
+  storage_data_disk {
+    name              = "datadisk_new_${count.index + 1}"
+    managed_disk_type = "Standard_LRS"
+    create_option     = "Empty"
+    lun               = 0
+    disk_size_gb      = "1023"
+  }
+
+  storage_data_disk {
+    name            = element(azurerm_managed_disk.test.*.name, count.index)
+    managed_disk_id = element(azurerm_managed_disk.test.*.id, count.index)
+    create_option   = "Attach"
+    lun             = 1
+    disk_size_gb    = element(azurerm_managed_disk.test.*.disk_size_gb, count.index)
+  }
+
+  os_profile {
+    computer_name  = "hostname"
+    admin_username = "testadmin"
+    admin_password = "Password1234!"
+  }
+
+  os_profile_linux_config {
+    disable_password_authentication = false
+  }
+
+  tags = {
+    environment = "staging"
   }
 }
