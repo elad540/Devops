@@ -18,6 +18,15 @@ resource "azurerm_subnet" "test" {
 }
 
 # Create public IPs
+resource "azurerm_public_ip" "test" {
+  count                        = var.countVMs
+  name                         = "test-${count.index}-pip"
+  resource_group_name          = azurerm_resource_group.test.name
+  allocation_method            = "Dynamic"
+  location                     = azurerm_resource_group.test.location
+}
+
+# Get public IPs
 data "azurerm_public_ip" "test" {
   count                        = var.countVMs
   name                         = "test-${count.index}-pip"
@@ -34,7 +43,7 @@ resource "azurerm_network_interface" "test" {
     name                          = "testConfiguration"
     subnet_id                     = azurerm_subnet.test.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = element(data.azurerm_public_ip.test.*.id, count.index)
+    public_ip_address_id          = element(azurerm_public_ip.test.*.id, count.index)
   }
 }
 
