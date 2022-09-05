@@ -4,7 +4,7 @@
 properties
 	parameters {
 	  choice choices: ['apply', 'destroy'], name: 'action'
-})
+}
 
 pipeline {
     agent any
