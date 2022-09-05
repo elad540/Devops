@@ -2,16 +2,16 @@
 pipeline {
     agent any
 // Every ten minutes in the first half of every hour (three times, perhaps at :04, :14, :24)
-    triggers {
+   triggers {
       pollSCM '''TZ=Israel
     H(0-59)/10 * * * *'''
-   }
+    }
    parameters {
    		choice(name: 'action', choices: ['apply', 'destroy'])
-	}
-    tools {
+   		}
+   tools {
       terraform 'Terraform'
-    }
+      }
 
     stages {
         stage ('terraform init') {
@@ -21,13 +21,13 @@ pipeline {
                 }
             }
         }
-//         stage ('terraform Action') {
-//             steps {
-//                 dir('terraform-EC2') {
-//                     echo 'Terraform action is –> ${action}'
-//                     sh ('terraform ${action} -auto-approve')
-//                 }
-//            }
-//         }
+        stage ('terraform Action') {
+            steps {
+                dir('terraform-EC2') {
+                    echo 'Terraform action is –> ${action}'
+                    sh ('terraform ${action} -auto-approve')
+                }
+           }
+        }
     }
 }
