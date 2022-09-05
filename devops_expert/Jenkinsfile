@@ -1,0 +1,32 @@
+properties([parameters {
+  choice choices: ['apply', 'destroy'], name: 'action'
+}])
+pipeline {
+    agent any
+// Every ten minutes in the first half of every hour (three times, perhaps at :04, :14, :24)
+    triggers {
+      pollSCM '''TZ=Israel
+    H(0-59)/10 * * * *'''
+   }
+    tools {
+      terraform 'Terraform'
+    }
+
+    stages {
+        stage ('terraform init') {
+              steps {
+                dir('terraform-EC2') {
+                    sh ('terraform init')
+                }
+            }
+        }
+        stage ('terraform Action') {
+            steps {
+                dir('terraform-EC2') {
+                    echo 'Terraform action is –> ${action}'
+                    sh ('terraform ${action} -auto-approve')
+                }
+           }
+        }
+    }
+}
