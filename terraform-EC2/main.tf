@@ -54,21 +54,15 @@ resource "aws_instance" "ubuntu" {
   }
 }
 
+#
+#variable "credentials_files" {
+#  type    = list(string)
+#}
+#variable "config_files" {
+#  type    = list(string)
+#}
+#
 
-variable "credentials_files" {
-  type    = list(string)
-}
-variable "config_files" {
-  type    = list(string)
-}
-
-variable "security_token" {
-  type    = string
-}
-
-variable "session_token" {
-  type    = string
-}
 variable "region" {
   type = string
 }
