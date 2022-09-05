@@ -37,7 +37,7 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "ubuntu" {
-  count         = 2  #change to create more instances
+  count         = 1  #change to create more instances
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t3.micro"
   tags = {
