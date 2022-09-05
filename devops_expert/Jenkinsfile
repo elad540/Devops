@@ -1,6 +1,7 @@
-properties([parameters {
+properties(parameters {
   choice choices: ['apply', 'destroy'], name: 'action'
-}])
+})
+
 pipeline {
     agent any
 // Every ten minutes in the first half of every hour (three times, perhaps at :04, :14, :24)
