@@ -1,6 +1,9 @@
-properties(parameters {
-  choice choices: ['apply', 'destroy'], name: 'action'
-})
+// properties(parameters {
+//   choice choices: ['apply', 'destroy'], name: 'action'
+// })
+parameters {
+  string defaultValue: 'wwww', name: 'sss'
+}
 
 pipeline {
     agent any
