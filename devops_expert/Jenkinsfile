@@ -1,6 +1,4 @@
-// properties(parameters {
-//   choice choices: ['apply', 'destroy'], name: 'action'
-// })
+parameters { choice(name: 'action', choices: ['apply', 'destroy']) }
 
 pipeline {
     agent any
