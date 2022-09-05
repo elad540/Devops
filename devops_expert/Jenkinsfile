@@ -1,4 +1,3 @@
-parameters { choice(name: 'action', choices: ['apply', 'destroy']) }
 
 pipeline {
     agent any
@@ -7,6 +6,9 @@ pipeline {
       pollSCM '''TZ=Israel
     H(0-59)/10 * * * *'''
    }
+   parameters {
+   		choice(name: 'action', choices: ['apply', 'destroy'])
+	}
     tools {
       terraform 'Terraform'
     }
