@@ -24,13 +24,13 @@ pipeline {
                 }
             }
         }
-        stage ('terraform Action') {
-            steps {
-                dir('terraform-EC2') {
-                    echo 'Terraform action is –> ${action}'
-                    sh ('terraform ${action} -auto-approve')
-                }
-           }
-        }
+//         stage ('terraform Action') {
+//             steps {
+//                 dir('terraform-EC2') {
+//                     echo 'Terraform action is –> ${action}'
+//                     sh ('terraform ${action} -auto-approve')
+//                 }
+//            }
+//         }
     }
 }
