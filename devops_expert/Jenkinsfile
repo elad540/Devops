@@ -3,7 +3,7 @@
 // })
 properties
 	parameters [
-	  string defaultValue: 'wwww', name: 'sss'
+	  choice choices: ['apply', 'destroy'], name: 'action'
 ])
 
 pipeline {
