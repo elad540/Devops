@@ -29,7 +29,6 @@ pipeline {
         }
         stage ('terraform Action') {
             steps {
-                withCredentials([string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'AKIAYKD7XMBKPHYR6YUS'),string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'PWwUltJaG9CJmj/+LX4KxT3R6XHKAb0WxnZ7CJDE')])
                 dir('terraform-EC2') {
                     echo 'Terraform action is –> ${action}'
                     sh ('terraform ${action} -auto-approve')
