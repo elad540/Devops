@@ -1,6 +1,7 @@
 
 pipeline {
     agent any
+     git 'https://github.com/shaharco99/Devops'
 // Every ten minutes in the first half of every hour (three times, perhaps at :04, :14, :24)
    triggers {
       pollSCM '''TZ=Israel
@@ -20,11 +21,6 @@ pipeline {
 //    }
 
     stages {
-        stage ('git pull') {
-             steps {
-                git 'https://github.com/shaharco99/Devops'
-            }
-        }
         stage ('terraform init') {
               steps {
                 dir('terraform-EC2') {
