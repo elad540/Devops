@@ -8,21 +8,6 @@
 # Destroy a specific instance "Terraform destroy -target aws_instance.ubuntu[ENTER_INDEX_OF_instance(name num-1)]"
 ############################################################################################################
 
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "4.6.0"
-    }
-  }
-}
-
-provider "aws" {
-  region  = "eu-central-1"
-#  access_key = var.AWS_ACCESS_KEY_ID
-#  secret_key = var.AWS_SECRET_ACCESS_KEY
-}
-
 data "aws_ami" "ubuntu" {
   most_recent = true
   owners = ["099720109477"] # Canonical
