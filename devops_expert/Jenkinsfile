@@ -2,27 +2,15 @@
 pipeline {
     agent any
 // Every ten minutes in the first half of every hour (three times, perhaps at :04, :14, :24)
-   triggers {
-      pollSCM '''TZ=Israel
-    H(0-59)/10 * * * *'''
-    }
-   parameters {
-   		choice(name: 'action', choices: ['apply', 'destroy'])
-   		}
-   tools {
-      terraform 'Terraform'
-      }
-
-   environment {
-       AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
-       AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
-   }
+   triggers {pollSCM '''TZ=Israel
+    H(0-59)/10 * * * *'''}
+   parameters {choice(name: 'action', choices: ['apply', 'destroy'])}
+   tools {terraform 'Terraform'}
 
     stages {
         stage ('terraform init') {
         withCredentials([
-            string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'AKIAYKD7XMBKPHYR6YUS'),
-            string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'PWwUltJaG9CJmj/+LX4KxT3R6XHKAb0WxnZ7CJDE')]) {
+        {
               steps {
                 dir('terraform-EC2') {
                     sh ('terraform init')
@@ -32,7 +20,8 @@ pipeline {
         stage ('terraform Action') {
         withCredentials([
             string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'AKIAYKD7XMBKPHYR6YUS'),
-            string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'PWwUltJaG9CJmj/+LX4KxT3R6XHKAb0WxnZ7CJDE')]) {
+            string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'PWwUltJaG9CJmj/+LX4KxT3R6XHKAb0WxnZ7CJDE')])
+        {
             steps {
                 dir('terraform-EC2') {
                     sh ('terraform ${action} -auto-approve')
@@ -40,4 +29,5 @@ pipeline {
            }
         }
     }
+}
 }
