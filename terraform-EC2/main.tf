@@ -19,8 +19,8 @@ terraform {
 
 provider "aws" {
   region  = var.region
-  access_key = var.access_key
-  secret_key = var.secret_key
+  access_key = var.AWS_ACCESS_KEY_ID
+  secret_key = var.AWS_SECRET_ACCESS_KEY
 }
 
 data "aws_ami" "ubuntu" {
@@ -66,10 +66,10 @@ resource "aws_instance" "ubuntu" {
 variable "region" {
   type = string
 }
-variable "access_key" {
+variable "AWS_ACCESS_KEY_ID" {
   type = string
 }
 
-variable "secret_key" {
+variable "AWS_SECRET_ACCESS_KEY" {
   type = string
 }
