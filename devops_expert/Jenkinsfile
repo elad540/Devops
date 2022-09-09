@@ -8,6 +8,7 @@ pipeline {
 
    parameters {
    		choice(name: 'action', choices: ['apply', 'destroy'])
+   		string defaultValue: '1', description: 'change to create more instances', name: 'amount_of_instance', trim: true
     }
 
    tools {
@@ -32,7 +33,9 @@ pipeline {
         stage ('terraform Action') {
             steps {
                 dir('terraform-EC2') {
-                    sh ('terraform ${action} -auto-approve -var "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" -var "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}" ')
+                    sh ('terraform ${action} -auto-approve -var "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}"
+                    -var "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
+                    -var "amount_of_instance=${amount_of_instance}"')
                 }
             }
         }
