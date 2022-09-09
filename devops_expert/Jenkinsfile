@@ -5,9 +5,11 @@ pipeline {
       pollSCM '''TZ=Israel
     H(0-59)/10 * * * *'''
     }
+
    parameters {
    		choice(name: 'action', choices: ['apply', 'destroy'])
-   		}
+    }
+
    tools {
       terraform 'Terraform'
       }
@@ -30,8 +32,10 @@ pipeline {
         stage ('terraform Action') {
             steps {
                 dir('terraform-EC2') {
+                    sh('echo $AWS_ACCESS_KEY_ID')
                     sh ('terraform ${action} -auto-approve -var "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" -var "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}" ')
-           }
+                }
+            }
         }
     }
 }
