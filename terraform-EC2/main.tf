@@ -39,9 +39,9 @@ resource "aws_instance" "ubuntu" {
   }
 }
 
-variable "region" {
-  type = string
-}
+#variable "region" {
+#  type = string
+#}
 
 variable "amount_of_instance" {
   type = string
