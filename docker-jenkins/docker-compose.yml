@@ -6,7 +6,7 @@ services:
     image: jenkins/jenkins:jdk11
     ports:
       - "8080:8080"
-      - "5151:5151"
+      - "50000:50000"
     volumes:
       - jenkins-home:/var/jenkins_home
 

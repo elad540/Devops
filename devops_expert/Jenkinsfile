@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 // Every ten minutes in the first half of every hour (three times, perhaps at :04, :14, :24)
@@ -5,7 +6,6 @@ pipeline {
       pollSCM '''TZ=Israel
     H(0-59)/10 * * * *'''
     }
-
    parameters {
    		choice(name: 'action', choices: ['apply', 'destroy'])
    		string defaultValue: '1', description: 'change to create more instances', name: 'amount_of_instance', trim: true
