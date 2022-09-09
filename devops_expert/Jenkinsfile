@@ -33,9 +33,9 @@ pipeline {
         stage ('terraform Action') {
             steps {
                 dir('terraform-EC2') {
-                    sh ('terraform ${action} -auto-approve -var "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}"
+                    sh ('''terraform ${action} -auto-approve -var "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}"
                     -var "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
-                    -var "amount_of_instance=${amount_of_instance}"')
+                    -var "amount_of_instance=${amount_of_instance}"''')
                 }
             }
         }
