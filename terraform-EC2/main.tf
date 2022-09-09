@@ -22,7 +22,7 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "ubuntu" {
-  count         = 1  #change to create more instances
+  count         = var.amount_of_instance  #change to create more instances
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t3.micro"
   tags = {
@@ -39,22 +39,11 @@ resource "aws_instance" "ubuntu" {
   }
 }
 
-#
-#variable "credentials_files" {
-#  type    = list(string)
-#}
-#variable "config_files" {
-#  type    = list(string)
-#}
-#
-#
-#variable "region" {
-#  type = string
-#}
-#variable "AWS_ACCESS_KEY_ID" {
-#  type = string
-#}
-#
-#variable "AWS_SECRET_ACCESS_KEY" {
-#  type = string
-#}
+variable "region" {
+  type = string
+}
+
+variable "amount_of_instance" {
+  type = string
+}
+
