@@ -4,7 +4,7 @@ from Live import valid_num
 from Score import add_points
 
 
-def get_money_interval(diff, amount):
+def get_money_interval(diff):
     """This function calculate minimum and maximum of possible answer"""
     interval = 5 - diff
     return interval
