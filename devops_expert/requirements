@@ -2,4 +2,4 @@ requests
 flask
 ansible
 panda
-PIL
+CurrencyConverter
