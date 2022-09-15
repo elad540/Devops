@@ -9,7 +9,7 @@ def load_game():
     1. Memory Game - a sequence of numbers will appear for 1 second and you have to guess it back
     2. Guess Game - guess a number and see if you chose like the computer
     3. Currency Roulette - try and guess the value of a random amount of USD in ILS
-* if you want to quit press 'p'
+* if you want to quit press 'q'
 """)
     return valid_num(1, 3, game)
 
