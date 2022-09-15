@@ -6,7 +6,7 @@ from Score import add_points
 
 def get_money_interval(diff):
     """This function calculate minimum and maximum of possible answer"""
-    interval = 5 - diff
+    interval = 6 - diff
     return interval
 
 
@@ -19,7 +19,7 @@ def get_guess_from_user(amount):
 def play(diff):
     """This function plays the game CurrencyRouletteGame"""
     amount = randrange(1, 100)
-    interval = get_money_interval(diff, amount)
+    interval = get_money_interval(diff)
     c = CurrencyConverter()
     total = round(c.convert(amount, 'USD', 'ILS'), 2)
     maximum = total + interval
@@ -31,5 +31,5 @@ def play(diff):
         print(f"you won, you were close enough the answer is {total} ")
         add_points(diff)
     else:
-        print(f"you lost the answer is {total}")
+        print(f"you lost the answer is {total},you were this far from the answer {total - guess}")
 
