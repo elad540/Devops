@@ -1,14 +1,16 @@
 def welcome(name):
     """This function greets the user with his name"""
-    print(f"Hello {name} and welcome to the Word of Games(Wog).\nHere you  can find many cool games to play.")
+    print(f"Hello {name} and welcome to the Word of Games(Wog).\nHere you can find many cool games to play.")
 
 
 def load_game():
     """This function asks the user what game he wants to play"""
-    game = input("Please choose a game to play:\n"
-                 "\t1. Memory Game - a sequence of numbers will appear for 1 second and you have to guess it back\n"
-                 "\t2. Guess Game - guess a number and see if you chose like the computer\n"
-                 "\t3. Currency Roulette - try and guess the value of a random amount of USD in ILS\n")
+    game = input("""Please choose a game to play:
+    1. Memory Game - a sequence of numbers will appear for 1 second and you have to guess it back
+    2. Guess Game - guess a number and see if you chose like the computer
+    3. Currency Roulette - try and guess the value of a random amount of USD in ILS
+* if you want to quit press 'p'
+""")
     return valid_num(1, 3, game)
 
 
@@ -28,4 +30,7 @@ def valid_num(minimum, maximum, item):
                 else:
                     item = input(f"please enter a number between {minimum} - {maximum}: ")
             else:
-                item = input(f"your input is not a number, please enter a number between {minimum} - {maximum}: ")
+                if item == "q":
+                    return item
+                else:
+                    item = input(f"your input is not a number, please enter a number between {minimum} - {maximum}: ")
