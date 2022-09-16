@@ -1,7 +1,7 @@
 from Utils import scores_file_name
 
 
-def add_points(diff):
+def add_score(diff):
     """add the points_of_winning to score"""
     cur_score = read_score()
     new_score = cur_score + ((diff * 3) + 5)
