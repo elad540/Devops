@@ -57,3 +57,4 @@ override.tf.json
 terraform.rc
 /docker-jenkins/agent.jar
 /remoting/
+/terraform-EC2@tmp/
