@@ -2,7 +2,7 @@ from random import randrange
 from time import sleep
 from Utils import screen_cleaner
 from Live import valid_num
-from Score import add_points
+from Score import add_score
 
 
 def generate_sequence(diff):
@@ -43,6 +43,6 @@ def play(diff):
     list_equal = is_list_equal(generate_sequence(diff), get_list_from_user(diff))
     if list_equal:
         print("you won")
-        add_points(diff)
+        add_score(diff)
     else:
         print("you lost")

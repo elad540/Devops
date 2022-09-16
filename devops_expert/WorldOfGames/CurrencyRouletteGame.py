@@ -1,7 +1,7 @@
 from currency_converter import CurrencyConverter
 from random import randrange
 from Live import valid_num
-from Score import add_points
+from Score import add_score
 
 
 def get_money_interval(diff):
@@ -29,7 +29,7 @@ def play(diff):
     guess = get_guess_from_user(amount)
     if minimum < guess < maximum:
         print(f"you won, you were close enough the answer is {total} ")
-        add_points(diff)
+        add_score(diff)
     else:
         print(f"you lost the answer is {total},you were this far from the answer {total - guess}")
 
