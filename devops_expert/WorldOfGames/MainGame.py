@@ -1,7 +1,4 @@
-import Live
-import GuessGame
-import MemoryGame
-import CurrencyRouletteGame
+from devops_expert.WorldOfGames.games import CurrencyRouletteGame, GuessGame, MemoryGame, Live
 
 name = input("What is your name: ")
 Live.welcome(name)
