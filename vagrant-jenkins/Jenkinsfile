@@ -1,0 +1,20 @@
+// To connect localhost to git for hook run: "ssh -R 80:localhost:8080 ssh.localhost.run" and copy output URL to git hook
+
+properties([
+githubProjectProperty(displayName: '', projectUrlStr: 'https://github.com/shaharco99/Devops/'),
+parameters([
+    choice(choices: ['up', 'destroy'], name: 'action'),
+pipelineTriggers([githubPush()])])
+pipeline {
+   agent any
+    stages {
+        stage ('terraform Action') {
+            steps {
+                dir('/home/shahar/Desktop/Devops/vagrant-jenkins')
+                {
+                    sh ('vagrant ${action}')
+                }
+            }
+        }
+    }
+}
