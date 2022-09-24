@@ -1,5 +1,5 @@
 ############################################################################################################
-## Terraform Script to setup VM on AWS, Find ami ID in AWS Marketplace, using "Ubuntu Server 20.04 LTS"
+## Terraform Script to setup VM on AWS, Find ami ID in AWS Marketplace, using "Ubuntu Server 22.04 LTS"
 # Build AWS Access Key
 # Terraform  initialize the Environment, "terraform init"
 # Terraform Check Script Before Run, "terraform plan" or Use "terraform plan -out terraform_plan_Backup.tfplan"
