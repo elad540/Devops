@@ -2,7 +2,7 @@
 
 properties([
 	githubProjectProperty(displayName: '', projectUrlStr: 'https://github.com/shaharco99/Devops/'),
-	parameters([choice(choices: ['up', 'destroy'], name: 'action')]),
+	parameters([choice(choices: ['up', 'destroy -f'], name: 'action')]),
 	pipelineTriggers([githubPush()])
 	])
 pipeline {
