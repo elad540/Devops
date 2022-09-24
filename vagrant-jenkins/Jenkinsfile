@@ -1,30 +1,14 @@
 // To connect localhost to git for hook run: "ssh -R 80:localhost:8080 ssh.localhost.run" and copy output URL to git hook
 
 properties([
-githubProjectProperty(displayName: '', projectUrlStr: 'https://github.com/shaharco99/Devops/'),
-parameters([
-    choice(choices: ['up', 'destroy'], name: 'action'),
-pipelineTriggers([githubPush()])])
+	githubProjectProperty(displayName: '', projectUrlStr: 'https://github.com/shaharco99/Devops/'),
+	parameters([choice(choices: ['up', 'destroy'], name: 'action')]),
+	pipelineTriggers([githubPush()])
+	])
 pipeline {
    agent any
     stages {
-        stage ('terraform init') {
-        // TODO do only when init is required
-              steps {
-                dir('/home/shahar/Desktop/Devops/terraform-EC2') {
-                    sh ('terraform init')
-                }
-            }
-        }
-        stage ('terraform Action') {
-            steps {
-                dir('/home/shahar/Desktop/Devops/terraform-EC2')
-                {
-                    sh ('terraform ${action} -auto-approve -var "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" -var "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}" -var "amount_of_instance=${amount_of_instance}" -var "region=${region}"')
-                }
-            }
-        }
-		stage ('terraform Action') {
+		stage ('vagrant Action') {
 			steps {
 				dir('/home/shahar/Desktop/Devops/vagrant-jenkins')
 				{
