@@ -8,9 +8,10 @@ def add_score(diff):
         new_score = cur_score + ((diff * 3) + 5)
         file = open(scores_file_name, 'w')
         file.write(str(new_score))
+        print(f"your new score is {new_score}")
         file.close()
-    except:
-        print("Something went wrong when adding the score file")
+    except FileNotFoundError:
+        print("Something went wrong when adding the score file please check the file path in Utils.py")
 
 
 def read_score():
@@ -21,7 +22,6 @@ def read_score():
         for line in read:
             return int(line)
         file.close()
-    except:
-        return "Something went wrong when opening the score file check if the file exist and the path is right in Utils.py"
-
+    except FileNotFoundError:
+        print("Something went wrong when opening the score file check if it exists and the path is right in Utils.py")
 
