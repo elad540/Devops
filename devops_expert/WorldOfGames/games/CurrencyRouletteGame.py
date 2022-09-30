@@ -1,7 +1,7 @@
 from currency_converter import CurrencyConverter
 from random import randrange
-from Live import valid_num
-from Score import add_score
+from devops_expert.WorldOfGames.games.Live import valid_num
+from devops_expert.WorldOfGames.score.Score import add_score
 
 
 def get_money_interval(diff):
