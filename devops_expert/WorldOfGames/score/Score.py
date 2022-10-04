@@ -1,4 +1,4 @@
-from devops_expert.WorldOfGames.score.Utils import scores_file_name
+from Utils import scores_file_name
 
 
 def add_score(diff):
