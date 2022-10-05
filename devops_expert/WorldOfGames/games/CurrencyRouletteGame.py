@@ -21,7 +21,7 @@ def play(diff):
     amount = randrange(1, 100)
     interval = get_money_interval(diff)
     c = CurrencyConverter()
-    total = round(c.convert(amount, 'USD', 'ILS'), 2)
+    total = round(c.convert(amount, 'USD', 'ILS'))
     maximum = total + interval
     minimum = total - interval
     # # for tests
@@ -31,5 +31,6 @@ def play(diff):
         print(f"you won, you were close enough the answer is {total} ")
         add_score(diff)
     else:
-        print(f"you lost the answer is {total},you were this far from the answer {total - guess}")
+        from_answer = round(total - guess)
+        print(f"you lost the answer is {total},you were this far from the answer {from_answer}")
 
