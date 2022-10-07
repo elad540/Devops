@@ -1,7 +1,12 @@
 from random import randrange
 from time import sleep
 from devops_expert.WorldOfGames.games.Live import valid_num
-from devops_expert.WorldOfGames.score.Score import add_score, screen_cleaner
+from devops_expert.WorldOfGames.score.Score import add_score
+from os import system
+
+
+def screen_cleaner():
+    system('clear')
 
 
 def generate_sequence(diff):
