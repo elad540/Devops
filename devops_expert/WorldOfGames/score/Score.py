@@ -14,7 +14,7 @@ def add_score(diff):
         print(f"your new score is {new_score}")
         file.close()
     except FileNotFoundError:
-        print(f"Something went wrong when adding the score to {scores_file_name} please check the file path in Utils.py")
+        print(f"Something went wrong when adding the score to {scores_file_name} please check the file path")
 
 
 def read_score():
