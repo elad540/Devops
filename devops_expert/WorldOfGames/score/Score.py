@@ -1,7 +1,7 @@
-import os
+from pathlib import Path
 
-
-scores_file_name = "/home/shahar/Desktop/Devops/devops_expert/WorldOfGames/score/Scores.txt"
+scores_file_name = Path(__file__).parent / "./Scores.txt"
+# scores_file_name = "/home/shahar/Desktop/Devops/devops_expert/WorldOfGames/score/Scores.txt"
 
 
 def add_score(diff):
