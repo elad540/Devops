@@ -12,7 +12,7 @@ def generate_number(diff):
 def get_guess_from_user(diff):
     """This function let the user choose a number between 1 to (diff) + 1"""
     user_number = input(f"Choose a number between 1 to {int(diff) + 1}: ")
-    valid_num(1, diff + 1, user_number)
+    return int(valid_num(1, diff + 1, user_number))
 
 
 def compare_results(secret_number, user_number):
