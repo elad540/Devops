@@ -1,0 +1,8 @@
+name: airflow
+replicas: 1
+deployment:
+  image: puckel/docker-airflow
+  tag: latest
+service:
+  type: NodePort
+  port: 8080
