@@ -13,10 +13,10 @@ env:
   region: eu-central-1
 
 jobs:
-  runs-on: [ self-hosted, linux, X64 ]
-  environment: production
   Checkout:
     name: 'Checkout'
+    runs-on: [ self-hosted, linux, X64 ]
+    environment: production
     defaults:
       run:
         shell: bash
