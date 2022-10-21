@@ -1,0 +1,8 @@
+## run : " docker-compose up -d"
+version: "3.4"
+services:
+  runner:
+    image: "shaharco1804/runner"
+    environment:
+        - GH_RUNNER_TOKEN=AN3SN4JMYH5V7WFDCMGRTZLDKKQGE
+        - GH_REPOSITORY=https://github.com/shaharco99/Devops
