@@ -15,7 +15,7 @@ env:
 jobs:
   terraform:
     name: 'Terraform'
-    runs-on: self-hosted
+    runs-on: [self-hosted, linux, X64]
     environment: production
     defaults:
       run:
