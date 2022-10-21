@@ -1,9 +1,9 @@
-## run : " docker-compose up -d"
+## run : " docker-compose up"
 ## if new is created get token from github
 version: "3.4"
 services:
   runner:
     image: "shaharco1804/runner"
     environment:
-        - GH_RUNNER_TOKEN=AN3SN4PLHBBLW2CBAF3GTS3DKKSNE
+        - GH_RUNNER_TOKEN=AN3SN4NC3CT6F5GU2ZXPZP3DKK6TE
         - GH_REPOSITORY=https://github.com/shaharco99/Devops
