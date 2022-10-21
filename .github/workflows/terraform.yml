@@ -12,8 +12,6 @@ permissions:
 #  amount_of_instance: "1"
 
 jobs:
-  working-directory: ./terraform-EC2
-
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
