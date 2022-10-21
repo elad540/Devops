@@ -5,5 +5,5 @@ services:
   runner:
     image: "shaharco1804/runner"
     environment:
-        - GH_RUNNER_TOKEN=AN3SN4KXJDWGQWIRKWCOEL3DKKRY4
+        - GH_RUNNER_TOKEN=AN3SN4PLHBBLW2CBAF3GTS3DKKSNE
         - GH_REPOSITORY=https://github.com/shaharco99/Devops
