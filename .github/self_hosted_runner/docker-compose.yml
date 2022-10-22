@@ -7,5 +7,4 @@ services:
     environment:
         - GH_RUNNER_TOKEN=AN3SN4O4JUMS7ZUHN2ABQKLDKOVJS
         - GH_REPOSITORY=https://github.com/shaharco99/Devops
-        - terraform_action=destroy
 #        - first_run=1  ## hide when first run
