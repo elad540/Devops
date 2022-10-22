@@ -20,7 +20,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./terraform-EC2
+
     steps:
       # Checkout the repository to the GitHub Actions runner
       - name: Checkout
@@ -33,6 +33,7 @@ jobs:
     defaults:
       run:
         shell: bash
+        working-directory: ./terraform-EC2
     needs: Checkout
     steps:
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
