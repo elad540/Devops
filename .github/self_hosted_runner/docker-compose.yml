@@ -5,5 +5,6 @@ services:
   runner:
     image: "shaharco1804/runner"
     environment:
-        - GH_RUNNER_TOKEN=AN3SN4NC3CT6F5GU2ZXPZP3DKK6TE
+        - GH_RUNNER_TOKEN=AN3SN4O4JUMS7ZUHN2ABQKLDKOVJS
         - GH_REPOSITORY=https://github.com/shaharco99/Devops
+#        - first_run=0  ## hide when not first run
