@@ -45,9 +45,6 @@ jobs:
     - name: Terraform Init
       run: terraform init
 
-    - name: testlocation
-      run: pwd && ll
-
       # Generates an execution plan for Terraform
     - name: Terraform Plan
       run: terraform plan -var "AWS_ACCESS_KEY_ID=${{secrets.AWS_ACCESS_KEY_ID}}" -var "AWS_SECRET_ACCESS_KEY=${{secrets.AWS_SECRET_ACCESS_KEY}}" -var "amount_of_instance=${{env.amount_of_instance}}" -var "region=${{env.region}}"
