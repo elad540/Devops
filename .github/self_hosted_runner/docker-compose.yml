@@ -7,4 +7,4 @@ services:
     environment:
         - GH_RUNNER_TOKEN=AN3SN4O4JUMS7ZUHN2ABQKLDKOVJS
         - GH_REPOSITORY=https://github.com/shaharco99/Devops
-#        - first_run=0  ## hide when not first run
+#        - first_run=1  ## hide when first run
