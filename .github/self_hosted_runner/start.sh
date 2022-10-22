@@ -12,6 +12,9 @@ then
     exit 1
 fi
 
-./config.sh --unattended --url ${GH_REPOSITORY} --token ${GH_RUNNER_TOKEN}
+if ${first_run};
+then
+    ./config.sh --unattended --url ${GH_REPOSITORY} --token ${GH_RUNNER_TOKEN}
+fi
 
 exec ./run.sh
