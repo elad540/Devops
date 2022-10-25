@@ -1,0 +1,8 @@
+name: jenkins
+replicas: 1
+deployment:
+  image: jenkins/jenkins:lts
+  tag: latest
+service:
+  type: NodePort
+  port: 8080
