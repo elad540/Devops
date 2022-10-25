@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins
+spec:
+  selector:
+    name: jenkins
+  type: NodePort
+  ports:
+  - name: foo # Actually, no port is needed.
+    port: 8080
+    targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins
+  labels:
+    name: jenkins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: jenkins
+  template:
+    metadata:
+      labels:
+        name: jenkins
+    spec:
+      containers:
+      - image: jenkins/jenkins:lts
+        name: jenkins
+#        volumeMounts:
+#          - name: someName
+#            mountPath: /var/jenkins_home
+#      volumes:
+#        - name: someName
+#          hostPath:
+#            path: /var/jenkins_home
