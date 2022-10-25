@@ -6,3 +6,4 @@ deployment:
 service:
   type: NodePort
   port: 8080
+  targetPort: 8080
