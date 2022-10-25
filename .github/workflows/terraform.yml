@@ -36,7 +36,7 @@ jobs:
         shell: bash
         working-directory: ./terraform-EC2
     needs: Checkout
-  steps:
+    steps:
     - name: Terraform installer
       uses: autero1/action-terraform@v1.0.3
       with:
