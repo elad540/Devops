@@ -28,7 +28,7 @@ spec:
         name: jenkins
     spec:
       containers:
-      - image: jenkins/jenkins:lts
+      - image: jenkins/jenkins
         name: jenkins
 #        volumeMounts:
 #          - name: someName
