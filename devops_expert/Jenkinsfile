@@ -30,14 +30,8 @@ pipeline {
         stage ('terraform init') {
         // TODO do only when init is required
               steps {
-                {
-                    sh ('pwd && ls -l')
-                },
-                {
-                dir('~/Devops/terraform-EC2') {
-                    sh ('terraform init')
-                    }
-                }
+                sh ('pwd')
+            }
         }
         stage ('terraform Action') {
             steps {
