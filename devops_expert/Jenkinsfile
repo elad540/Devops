@@ -30,14 +30,14 @@ pipeline {
         stage ('terraform init') {
         // TODO do only when init is required
               steps {
-
-                    sh ('terraform init')
-
+                dir('terraform-EC2') {
+                    sh ('pwd && ls -l && terraform init')
+                }
             }
         }
         stage ('terraform Action') {
             steps {
-
+                dir('terraform-EC2') {
                     echo 'Terraform action is –> ${action}'
                     sh ('terraform ${action} -auto-approve')
 
