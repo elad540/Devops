@@ -9,16 +9,18 @@ parameters([
 pipelineTriggers([githubPush()])])
 pipeline {
    agent any
- //    uncomment if tunel is not config
- // Every hour ( perhaps at minutes :04, :14, :24 between 0-30)
-     triggers {
-       pollSCM '''TZ=Israel
-     H(0-30) * * * *'''
-    }
+
+//     uncomment if tunel is not config
+// // Every hour ( perhaps at minutes :04, :14, :24 between 0-30)
+//     triggers {
+//       pollSCM '''TZ=Israel
+//     H(0-30) * * * *'''
+//    }
 
    tools {
       terraform 'Terraform'
       }
+
 
    environment {
        AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
@@ -28,20 +30,19 @@ pipeline {
     stages {
         stage ('terraform init') {
         // TODO do only when init is required
-
               steps {
-                dir('terraform-EC2') {
-                    sh ('pwd && ls -l && terraform init')
+                dir('/home/shahar/Desktop/Devops/terraform-EC2') {
+                    sh ('terraform init')
                 }
             }
         }
         stage ('terraform Action') {
             steps {
-                dir('terraform-EC2') {
-                    echo 'Terraform action is –> ${action}'
-                    sh ('terraform ${action} -auto-approve')
+                dir('/home/shahar/Desktop/Devops/terraform-EC2')
+                {
+                    sh ('terraform ${action} -auto-approve -var "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" -var "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}" -var "amount_of_instance=${amount_of_instance}" -var "region=${region}"')
                 }
-           }
+            }
         }
     }
 }
