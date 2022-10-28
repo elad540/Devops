@@ -10,12 +10,12 @@ pipelineTriggers([githubPush()])])
 pipeline {
    agent any
 
-//     uncomment if tunel is not config
-// // Every hour ( perhaps at minutes :04, :14, :24 between 0-30)
-//     triggers {
-//       pollSCM '''TZ=Israel
-//     H(0-30) * * * *'''
-//    }
+     uncomment if tunel is not config
+ // Every hour ( perhaps at minutes :04, :14, :24 between 0-30)
+     triggers {
+       pollSCM '''TZ=Israel
+     H(0-30) * * * *'''
+    }
 
 
    environment {
