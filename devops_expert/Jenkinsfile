@@ -28,10 +28,9 @@ podTemplate(containers: [
    }
 
     stages {
-    container('terraform'){
+    dockerNode('hashicorp/terraform'){
         stage ('terraform init') {
             // TODO do only when init is required
-
                   steps {
                     dir('terraform-EC2') {
                         sh ('pwd && ls -l && terraform init')
