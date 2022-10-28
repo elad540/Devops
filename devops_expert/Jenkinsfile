@@ -17,10 +17,6 @@ pipeline {
      H(0-30) * * * *'''
     }
 
-podTemplate(containers: [
-    containerTemplate(name: 'terraform', image: 'hashicorp/terraform', command: 'sleep', args: '99d')
-  ])
-
 
    environment {
        AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
