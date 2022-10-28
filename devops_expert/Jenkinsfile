@@ -9,7 +9,9 @@ parameters([
 pipelineTriggers([githubPush()])])
 pipeline {
    agent any
-
+podTemplate(cloud: 'kubernetes', containers: [containerTemplate(alwaysPullImage: true, args: 'cat', command: '/bin/sh -c', image: 'hashicorp/terraform', livenessProbe: containerLivenessProbe(execArgs: '', failureThreshold: 0, initialDelaySeconds: 0, periodSeconds: 0, successThreshold: 0, timeoutSeconds: 0), name: 'terraform', resourceLimitCpu: '', resourceLimitEphemeralStorage: '', resourceLimitMemory: '', resourceRequestCpu: '', resourceRequestEphemeralStorage: '', resourceRequestMemory: '', ttyEnabled: true, workingDir: '/home/jenkins/agent')], label: 'terraform', name: 'terraform') {
+    // some block
+}
  //    uncomment if tunel is not config
  // Every hour ( perhaps at minutes :04, :14, :24 between 0-30)
      triggers {
