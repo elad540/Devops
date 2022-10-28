@@ -40,7 +40,7 @@ pipeline {
                 dir('terraform-EC2') {
                     echo 'Terraform action is –> ${action}'
                     sh ('terraform ${action} -auto-approve')
-
+                }
            }
         }
     }
