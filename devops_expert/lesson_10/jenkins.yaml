@@ -10,6 +10,7 @@ spec:
   - name: foo # Actually, no port is needed.
     port: 8080
     targetPort: 8080
+    nodePort: 30009
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -28,12 +29,12 @@ spec:
         name: jenkins
     spec:
       containers:
-      - image: jenkins/jenkins
+      - image: shaharco1804/jenkins:lts
         name: jenkins
-#        volumeMounts:
-#          - name: someName
-#            mountPath: /var/jenkins_home
-#      volumes:
-#        - name: someName
-#          hostPath:
-#            path: /var/jenkins_home
+        imagePullPolicy: Always
+        volumeMounts:
+          - name: jenkins-home
+            mountPath: /var/jenkins_home
+      volumes:
+        - name: jenkins-home
+          emptyDir: { }
