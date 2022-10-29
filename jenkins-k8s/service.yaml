@@ -15,3 +15,17 @@ spec:
     - port: 8080
       targetPort: 8080
       nodePort: 32000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-slave
+  namespace: jenkins
+spec:
+  selector:
+      name: jenkins
+  type: NodePort
+  ports:
+    - port: 50000
+      targetPort: 50000
+      nodePort: 30002
