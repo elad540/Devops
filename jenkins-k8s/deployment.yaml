@@ -22,6 +22,7 @@ spec:
       containers:
         - name: jenkins
           image: shaharco1804/jenkins:lts
+          imagePullPolicy: Always
           resources:
             limits:
               memory: "2Gi"
