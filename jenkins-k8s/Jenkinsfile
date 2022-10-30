@@ -11,7 +11,7 @@ pipeline {
    agent {
   kubernetes {
     cloud 'kubernetes'
-    inheritFrom 'slave'
+    inheritFrom 'terraform'
     namespace 'jenkins'
   }
 }
