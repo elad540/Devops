@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.name }}
+  labels:
+    name: {{ .Values.name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      name: {{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        name: {{ .Values.name }}
+    spec:
+      securityContext:
+            fsGroup: {{ .Values.security.fsGroup }}
+            runAsUser: {{ .Values.security.runAsUser }}
+      serviceAccountName: {{ .Values.serviceAccountName }}
+      containers:
+        - name: {{ .Values.name }}
+          image: {{ .Values.image.repository }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+            limits:
+              memory: {{ .Values.resources.limits.memory }}
+              cpu: {{ .Values.resources.limits.cpu }}
+            requests:
+              memory: {{ .Values.resources.requests.memory }}
+              cpu: {{ .Values.resources.requests.cpu }}
+          ports:
+            - name: {{ .Values.port.name1 }}
+              containerPort: {{ .Values.port.containerPort1 }}
+            - name: {{ .Values.port.name2 }}
+              containerPort: {{ .Values.port.containerPort2 }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.httpget.path }}
+              port: {{ .Values.httpget.port }}
+            initialDelaySeconds: 90
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 5
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.httpget.path }}
+              port: {{ .Values.httpget.port }}
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          volumeMounts:
+            - name: jenkins-data
+              mountPath: /var/jenkins_home
+      volumes:
+        - name: jenkins-data
+          persistentVolumeClaim:
+              claimName: jenkins-pv-claim
