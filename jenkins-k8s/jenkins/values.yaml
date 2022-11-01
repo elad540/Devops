@@ -1,0 +1,54 @@
+name: "jenkins-helm"
+
+replicaCount: 1
+
+security:
+  fsGroup: 1000
+  runAsUser: 1000
+
+serviceAccountName: jenkins-admin
+
+image:
+  repository: shaharco1804/jenkins:lts
+  pullPolicy: Always
+  tag: "lts"
+
+resources:
+   limits:
+      memory: "2Gi"
+      cpu: "1000m"
+   requests:
+      memory: "500Mi"
+      cpu: "500m"
+
+port:
+  name1: httpport
+  containerPort1: 8080
+  name2: jnlpport
+  containerPort2: 50000
+
+httpget:
+  path: "/login"
+  port: 8080
+
+service:
+  type: NodePort
+  port: 8080
+  nodePort: 32000
+  portForSlave: 50000
+  nodePortForSlave: 30002
+
+
+storageClass:
+  name: local-storage
+  provisioner: "kubernetes.io/no-provisioner"
+  volumeBindingMode: WaitForFirstConsumer
+
+pv:
+  storage: 10Gi
+
+pvc:
+  type: local
+  accessModes:
+    - ReadWriteOnce
+  storage: 3Gi
