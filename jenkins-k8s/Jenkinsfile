@@ -6,11 +6,6 @@ parameters([
     choice(choices: ['apply', 'destroy'], name: 'action'),
     choice(choices: ['eu-central-1', 'us-east-2', 'us-east-1', 'us-west-1', 'us-west-2', 'af-south-1', 'ap-east-1', 'ap-southeast-3', 'ap-south-1', 'ap-northeast-3', 'ap-northeast-2', 'ap-southeast-1', 'ap-southeast-2', 'ap-northeast-1', 'ca-central-1', 'eu-west-1', 'eu-west-2', 'eu-south-1', 'eu-west-3', 'eu-north-1', 'me-south-1', 'me-central-1', 'sa-east-1'], description: 'use "eu-central-1" as default', name: 'region'),
     string(defaultValue: '1', description: 'change to amount of instances', name: 'amount_of_instance', trim: true)]),
-podTemplate(cloud: 'kubernetes', containers: [containerTemplate(alwaysPullImage: true, args: '', command: '',
-image: 'jenkins/jnlp-agent-terraform:latest',
-livenessProbe: containerLivenessProbe(execArgs: '',
-failureThreshold: 0, initialDelaySeconds: 0, periodSeconds: 0, successThreshold: 0, timeoutSeconds: 0),
-name: 'slave', resourceLimitCpu: '', resourceLimitEphemeralStorage: '', resourceLimitMemory: '', resourceRequestCpu: '', resourceRequestEphemeralStorage: '', resourceRequestMemory: '', ttyEnabled: true, workingDir: '/home/jenkins')], label: 'terraform', name: 'slave-terraform', namespace: 'jenkins')
 pipelineTriggers([githubPush()])])
 pipeline {
    agent {
