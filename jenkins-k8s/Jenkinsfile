@@ -6,19 +6,21 @@ parameters([
     string(defaultValue: '1', description: 'change to amount of instances', name: 'amount_of_instance', trim: true)]),
 pipelineTriggers([githubPush()])])
 pipeline {
-   agent {
+agent {
   kubernetes {
     cloud 'kubernetes'
+    defaultContainer 'jnlp'
+    inheritFrom 'slave'
     namespace 'jenkins'
   }
- }
+}
 
-//     uncomment if tunel is not config
-// // Every hour ( perhaps at minutes :04, :14, :24 between 0-30)
-//     triggers {
-//       pollSCM '''TZ=Israel
-//     H(0-30) * * * *'''
-//    }
+// uncomment if tunel is not config
+// Every hour ( perhaps at minutes :04, :14, :24 between 0-30)
+    triggers {
+      pollSCM '''TZ=Israel
+    H(0-30) * * * *'''
+    }
 
    tools {
       terraform 'Terraform'
@@ -34,16 +36,18 @@ pipeline {
         stage ('terraform init') {
         // TODO do only when init is required
               steps {
-                dir('./Devops/terraform-EC2') {
-                    sh ('terraform init')
+                git 'https://github.com/shaharco99/Devops/'
+                dir('./Devops/terraform-EC2')
+                    {
+                        sh ('terraform init')
+                    }
                 }
             }
-        }
         stage ('terraform Action') {
             steps {
                 dir('./Devops/terraform-EC2')
                 {
-                    sh ('terraform ${action} -auto-approve -var "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" -var "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}" -var "amount_of_instance=${amount_of_instance}" -var "region=${region}"')
+                    sh ('pwd')
                 }
             }
         }
