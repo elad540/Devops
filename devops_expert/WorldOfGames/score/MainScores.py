@@ -8,7 +8,7 @@ app = Flask(__name__, template_folder='template')
 
 @app.route('/')
 def content():
-    score = f"The score is {read_score()}"
+    score = read_score()
     return render_template('index.html', score=score)
 
 
