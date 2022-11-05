@@ -6,5 +6,5 @@ COPY score/MainScores.py score/MainScores.py
 RUN pip install -r requirements
 ENV FLASK_APP=score/MainScores.py
 ENV FLASK_RUN_HOST=0.0.0.0
-EXPOSE 5000
+EXPOSE 8777
 CMD ["flask", "run"]

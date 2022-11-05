@@ -1,0 +1,19 @@
+properties([
+githubProjectProperty(displayName: '', projectUrlStr: 'https://github.com/shaharco99/Devops/'),
+pipelineTriggers([githubPush()])])
+pipeline {
+    agent {
+      dockerfile {
+        dir '/Devops/devops_expert/WorldOfGames/Dockerfile'
+        filename 'Dockerfile'
+      }
+    }
+
+    stages {
+        stage ('checkout') {
+              steps {
+                checkout scm
+            }
+        }
+    }
+}
