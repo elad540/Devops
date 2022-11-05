@@ -1,18 +1,59 @@
 properties([
 githubProjectProperty(displayName: '', projectUrlStr: 'https://github.com/shaharco99/Devops/'),
+parameters([ string(defaultValue: 'http://172.18.0.2:5000/', description: 'URL of docker for scores', name: 'url_score', trim: true)]),
 pipelineTriggers([githubPush()])])
 pipeline {
-    agent {
-      dockerfile {
-        dir '/Devops/devops_expert/WorldOfGames'
-        filename 'Dockerfile'
-      }
+agent {
+    kubernetes {
+      yaml '''
+        apiVersion: v1
+        kind: Pod
+        spec:
+          containers:
+          - name: docker
+            image: shaharco1804/test_for_wog:latest
+            command:
+            - cat
+            tty: true
+            volumeMounts:
+             - mountPath: /var/run/docker.sock
+               name: docker-sock
+          volumes:
+          - name: docker-sock
+            hostPath:
+              path: /var/run/docker.sock
+        '''
     }
+  }
+
 
     stages {
-        stage ('checkout') {
+        stage('Build') {
               steps {
-                checkout scm
+                container('docker') {
+                  sh 'docker build -t shaharco1804/world_of_game:latest  --pull --no-cache devops_expert/WorldOfGames/'
+                }
+            }
+        }
+        stage('Run') {
+              steps {
+                container('docker') {
+                  sh 'cd devops_expert/WorldOfGames && docker-compose up -d'
+                }
+            }
+        }
+        stage('Test') {
+              steps {
+                container('docker') {
+                  sh 'cd devops_expert/WorldOfGames/test && python3 e2e.py'
+                }
+            }
+        }
+        stage('Finalize') {
+              steps {
+                container('docker') {
+                  sh 'pwd'
+                }
             }
         }
     }
