@@ -4,7 +4,7 @@ pipelineTriggers([githubPush()])])
 pipeline {
     agent {
       dockerfile {
-        dir '/Devops/devops_expert/WorldOfGames/Dockerfile'
+        dir '/Devops/devops_expert/WorldOfGames'
         filename 'Dockerfile'
       }
     }
