@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 
 
 def test_scores_service():
+    print("url_score")
     url_score = str(os.getenv("url_score"))
     if len(url_score) != 0:
         url_score = input("enter the url of the score: ")
