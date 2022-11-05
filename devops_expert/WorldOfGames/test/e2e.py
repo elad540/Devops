@@ -7,7 +7,6 @@ from selenium.webdriver.common.by import By
 
 def test_scores_service():
     url_score = os.getenv("url_score")
-    print(url_score)
     if len(url_score) != 0:
         url_score = input("enter the url of the score: ")
     service = Service('/home/shahar/Downloads/chromedriver_linux64/chromedriver')
