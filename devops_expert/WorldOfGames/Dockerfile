@@ -3,6 +3,7 @@ RUN mkdir "WorldOfGames"
 WORKDIR /WorldOfGames
 COPY requirements requirements
 COPY score/MainScores.py score/MainScores.py
+RUN pip install --upgrade pip
 RUN pip install -r requirements
 ENV FLASK_APP=score/MainScores.py
 ENV FLASK_RUN_HOST=0.0.0.0
