@@ -1,10 +1,12 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-import sys
+import sys, os
 
 
 def test_scores_service():
+    url_score = os.getenv("url_score")
+    print(url_score)
     url = input("enter the url of the score: ")
     service = Service('/home/shahar/Downloads/chromedriver_linux64/chromedriver')
     service.start()
