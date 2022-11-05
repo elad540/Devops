@@ -1,17 +1,19 @@
+import os
+import sys
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-import sys, os
 
 
 def test_scores_service():
     url_score = os.getenv("url_score")
     print(url_score)
-    url = input("enter the url of the score: ")
+    if len(url_score) != 0:
+        url_score = input("enter the url of the score: ")
     service = Service('/home/shahar/Downloads/chromedriver_linux64/chromedriver')
     service.start()
     driver = webdriver.Remote(service.service_url)
-    driver.get(url)
+    driver.get(url_score)
     score = int(driver.find_element(By.ID, "score").text)
     if 1 < score < 1000:
         return True
