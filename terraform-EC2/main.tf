@@ -24,7 +24,7 @@ data "aws_ami" "ubuntu" {
 resource "aws_instance" "ubuntu" {
   count         = var.amount_of_instance  #change to create more instances
   ami           = data.aws_ami.ubuntu.id
-  instance_type = "t3.micro"
+  instance_type = "t2.micro"
   tags = {
     Name = "ubuntu_22.04_${count.index + 1}"
   }
@@ -37,6 +37,7 @@ resource "aws_instance" "ubuntu" {
       instance_type
     ]
   }
+  user_data = file("templates/ubuntu.sh")
 }
 
 variable "amount_of_instance" {
