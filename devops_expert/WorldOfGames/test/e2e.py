@@ -9,7 +9,7 @@ def test_scores_service():
     url_score = str(os.getenv("url_score"))
     if len(url_score) == 0:
         url_score = input("enter the url of the score: ")
-    service = Service('./devops_expert/WorldOfGames/test/chromedriver')
+    service = Service('./chromedriver')
     service.start()
     driver = webdriver.Remote(service.service_url)
     driver.get(url_score)
