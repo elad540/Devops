@@ -1,8 +1,8 @@
 import os
 import sys
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
 
@@ -11,9 +11,7 @@ def test_scores_service():
         url_score = str(os.getenv("url_score"))
     else:
         url_score = input("enter the url of the score: ")
-    service = Service('./chromedriver')
-    service.start()
-    driver = webdriver.Chrome(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
     driver.get(url_score)
     score = int(driver.find_element(By.ID, "score").text)
     if 1 < score < 1000:
