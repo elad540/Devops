@@ -1,6 +1,6 @@
 properties([
 githubProjectProperty(displayName: '', projectUrlStr: 'https://github.com/shaharco99/Devops/'),
-parameters([ string(defaultValue: 'http://172.18.0.2:5000/', description: 'URL of docker for scores', name: 'url_score', trim: true)]),
+parameters([ string(defaultValue: 'http://172.19.0.2:5000/', description: 'URL of docker for scores', name: 'url_score', trim: true)]),
 pipelineTriggers([githubPush()])])
 pipeline {
 agent {
