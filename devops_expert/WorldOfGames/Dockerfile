@@ -2,7 +2,7 @@ FROM python:3.10-alpine
 RUN mkdir "WorldOfGames"
 WORKDIR /WorldOfGames
 COPY requirements requirements
-COPY score/MainScores.py score/MainScores.py
+#COPY score/MainScores.py score/MainScores.py
 RUN pip install --upgrade pip
 RUN pip install -r requirements
 ENV FLASK_APP=score/MainScores.py
