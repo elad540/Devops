@@ -1,4 +1,4 @@
-name: "jenkins-helm"
+name: "jenkins"
 
 replicaCount: 1
 
@@ -48,7 +48,4 @@ pv:
   storage: 10Gi
 
 pvc:
-  type: local
-  accessModes:
-    - ReadWriteOnce
   storage: 3Gi

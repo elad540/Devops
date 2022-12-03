@@ -38,7 +38,7 @@ agent {
         stage('Run') {
               steps {
                 container('docker') {
-                  sh 'cd devops_expert/WorldOfGames && docker-compose up -d'
+                  sh 'cd devops_expert/WorldOfGames && docker run -d shaharco1804/world_of_game:latest'
                 }
             }
         }
@@ -50,9 +50,12 @@ agent {
             }
         }
         stage('Finalize') {
-              steps {
-                container('docker') {
-                  sh 'pwd'
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                        app.push("${BUILD_NUMBER}")
+                        app.push("latest")
+                    }
                 }
             }
         }
