@@ -45,7 +45,7 @@ agent {
         stage('Test') {
               steps {
                 container('docker') {
-                  sh 'cd devops_expert/WorldOfGames/test && wget https://chromedriver.storage.googleapis.com/107.0.5304.62/chromedriver_linux64.zip && unzip chromedriver_linux64.zip && python3 e2e.py'
+                  sh 'cd devops_expert/WorldOfGames/test && python3 e2e.py'
                 }
             }
         }
