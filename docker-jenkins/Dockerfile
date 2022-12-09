@@ -8,10 +8,9 @@ USER root
 RUN apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y && apt-get autoremove -y && apt-get autoclean -y
 RUN apt-get install -y ${peckges}
 RUN apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y && apt-get autoremove -y && apt-get autoclean -y
-#RUN mkdir -p /scripts
-#COPY jenkins_update.sh .
-##RUN curl http://${jenkins_url}:${jenkins_port}/jnlpJars/jenkins-cli.jar --output /opt/jenkins-cli.jar
-##ARG UPDATE_LIST=$(java -jar /opt/jenkins-cli.jar -s http://${jenkins_url}:${jenkins_port}/ -auth "admin:admin" -noKeyAuth list-plugins | grep -e ')$' | awk '{ print $1 }' );
-#RUN chmod +x jenkins_update.sh
-#RUN ./jenkins_update.sh
+COPY jenkins.yaml /var/jenkins_home/jenkins.yaml
+# RUN mkdir -p /scripts
+# COPY jenkins_update.sh .
+# RUN chmod +x jenkins_update.sh
+# RUN . /jenkins_update.sh
 RUN jenkins-plugin-cli --plugins ${plugins}
