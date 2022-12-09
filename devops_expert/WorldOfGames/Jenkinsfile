@@ -11,7 +11,7 @@ agent {
         spec:
           containers:
           - name: docker
-            image: shaharco1804/score_flask:latest
+            image: shaharco1804/world_of_game:latest
             command:
             - cat
             tty: true
@@ -31,14 +31,14 @@ agent {
         stage('Build') {
               steps {
                 container('docker') {
-                  sh 'docker build -t shaharco1804/world_of_game:latest  --pull --no-cache devops_expert/WorldOfGames/'
+                  sh 'docker build -t shaharco1804/score_flask:latest  --pull --no-cache devops_expert/WorldOfGames/'
                 }
             }
         }
         stage('Run') {
               steps {
                 container('docker') {
-                  sh 'cd devops_expert/WorldOfGames && docker run -d shaharco1804/world_of_game:latest'
+                  sh 'cd devops_expert/WorldOfGames && docker run -d shaharco1804/score_flask:latest'
                 }
             }
         }
