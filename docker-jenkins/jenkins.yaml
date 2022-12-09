@@ -35,7 +35,7 @@ jenkins:
                   spec:
                     containers:
                     - name: docker
-                      image: shaharco1804/test_for_wog:latest
+                      image: shaharco1804/score_flask:latest
                       command:
                       - cat
                       tty: true
@@ -54,7 +54,7 @@ jenkins:
                   spec:
                     containers:
                     - name: docker
-                      image: shaharco1804/test_for_wog:latest
+                      image: shaharco1804/score_flask:latest
                       command:
                       - cat
                       tty: true
