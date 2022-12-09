@@ -71,8 +71,6 @@ jenkins:
   disableRememberMe: false
   labelAtoms:
   - name: "built-in"
-  - name: "world-of-games-5-p9bg7-t6lmj-8v4r0"
-  - name: "world_of_games_5-p9bg7"
   markupFormatter: "plainText"
   mode: NORMAL
   myViewsTabBar: "standard"
@@ -150,6 +148,7 @@ unclassified:
       $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:
 
       Check console output at $BUILD_URL to view the results.
+    defaultContentType: "text/plain"
     defaultSubject: "$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!"
     defaultTriggerIds:
     - "hudson.plugins.emailext.plugins.trigger.FailureTrigger"
@@ -184,7 +183,8 @@ unclassified:
   junitTestResultStorage:
     storage: "file"
   locale:
-    ignoreAcceptLanguage: false
+    ignoreAcceptLanguage: true
+    systemLocale: "english"
   location:
     adminAddress: "address not configured yet <nobody@nowhere>"
     url: "http://192.168.49.2:32000/"
