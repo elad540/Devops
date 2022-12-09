@@ -1,6 +1,9 @@
 FROM linuxserver/docker-compose
-RUN apt update --fix-missing -y && apt upgrade -y && apt dist-upgrade -y && apt autoremove -y && apt autoclean -y
-RUN apt install python3 pip wget -y
+ARG packages='python3 pip wget'
+RUN apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y && apt-get autoremove -y && apt-get autoclean -y
+RUN apt-get install -y ${packages}
+RUN apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y && apt-get autoremove -y && apt-get autoclean -y
+RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN apt-get install ./google-chrome-stable_current_amd64.deb -y
 COPY requirements requirements
 RUN pip3 install -r requirements
-CMD python e2e.py
