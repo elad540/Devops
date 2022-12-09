@@ -14,7 +14,7 @@ def test_scores_service():
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
     driver.get(url_score)
     score = int(driver.find_element(By.ID, "score").text)
-    if 1 < score < 1000:
+    if 0 <= score <= 1000:
         return True
     else:
         return False
