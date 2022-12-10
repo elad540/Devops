@@ -31,7 +31,7 @@ agent {
         stage('Build') {
               steps {
                 container('docker') {
-                  sh 'docker build -t shaharco1804/score_flask:latest  --pull --no-cache devops_expert/WorldOfGames/'
+                  sh 'docker build -t shaharco1804/score_flask:latest  --pull --no-cache devops_expert/WorldOfGames/score/'
                 }
             }
         }

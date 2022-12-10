@@ -5,5 +5,5 @@ RUN apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y && apt-ge
 RUN apt -f install -y
 RUN apt-get install -y ${packages}
 RUN apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y && apt-get autoremove -y && apt-get autoclean -y
-COPY requirements requirements
+COPY ../score/requirements requirements
 RUN pip3 install -r requirements
