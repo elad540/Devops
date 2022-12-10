@@ -7,6 +7,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 
 def test_scores_service():
+    print(str(os.getenv("url_score")))
     if os.getenv("url_score"):
         url_score = str(os.getenv("url_score"))
     else:
