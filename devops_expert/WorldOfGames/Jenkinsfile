@@ -11,7 +11,7 @@ agent {
         spec:
           containers:
           - name: docker
-            image: shaharco1804/world_of_game:latest
+            image: shaharco1804/world_of_game
             command:
             - cat
             tty: true
