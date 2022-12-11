@@ -5,7 +5,7 @@ COPY requirements requirements
 COPY . .
 RUN pip install --upgrade pip
 RUN pip install -r requirements
-ENV FLASK_APP=score/MainScores.py
+ENV FLASK_APP=./MainScores.py
 ENV FLASK_RUN_HOST=0.0.0.0
 EXPOSE 8777
 CMD ["flask", "run"]
