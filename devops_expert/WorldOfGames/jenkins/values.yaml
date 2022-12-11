@@ -9,7 +9,7 @@ security:
 serviceAccountName: jenkins-admin
 
 image:
-  repository: shaharco1804/jenkins:lts
+  repository: shaharco1804/jenkins
   pullPolicy: Always
   tag: "lts"
 
