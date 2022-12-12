@@ -31,14 +31,14 @@ agent {
         stage('Build') {
               steps {
                 container('docker') {
-                  sh 'docker build -t shaharco1804/score_flask:latest  --pull devops_expert/WorldOfGames/score/'
+                  sh 'docker build -t shaharco1804/score_flask:latest --pull devops_expert/WorldOfGames/score/'
                 }
             }
         }
         stage('Run') {
               steps {
                 container('docker') {
-                  sh 'cd devops_expert/WorldOfGames && docker run -d -name score shaharco1804/score_flask:latest'
+                  sh 'cd devops_expert/WorldOfGames && docker run -d --name score shaharco1804/score_flask:latest'
                 }
             }
         }
