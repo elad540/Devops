@@ -23,7 +23,7 @@ jenkins:
                   spec:
                     containers:
                     - name: docker
-                      image: shaharco1804/score_flask:latest
+                      image: shaharco1804/world_of_game:latest
                       command:
                       - cat
                       tty: true
@@ -42,7 +42,7 @@ jenkins:
                   spec:
                     containers:
                     - name: docker
-                      image: shaharco1804/score_flask:latest
+                      image: shaharco1804/world_of_game:latest
                       command:
                       - cat
                       tty: true
