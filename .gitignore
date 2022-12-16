@@ -61,3 +61,4 @@ terraform.rc
 
 #vagrantfile
 /jenkins/vagrant-jenkins/.vagrant/*
+/terraform/*/ansible/hosts
