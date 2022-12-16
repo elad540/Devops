@@ -60,4 +60,4 @@ terraform.rc
 /terraform-EC2@tmp/
 
 #vagrantfile
-*/.vagrant/*
+*/.vagrant/*!/jenkins/vagrant-jenkins/.vagrant/
