@@ -91,7 +91,7 @@ controller:
   # The Protocol can be overwritten by specifying `controller.jenkinsUrlProtocol`.
   # jenkinsUrlProtocol: "https"
   # If you are not using the provided ingress you can specify `controller.jenkinsUrl` to change the url definition.
-  # jenkinsUrl: ""
+  jenkinsUrl: "192.164.49.2:32000"
   # If you set this prefix and use ingress controller then you might want to set the ingress path below
   # jenkinsUriPrefix: "/jenkins"
   # Enable pod security context (must be `true` if podSecurityContextOverride, runAsUser or fsGroup are set)
@@ -155,6 +155,7 @@ controller:
       periodSeconds: 10
       timeoutSeconds: 5
       failureThreshold: 12
+      initialDelaySeconds: 60
     livenessProbe:
       failureThreshold: 5
       httpGet:
@@ -164,7 +165,7 @@ controller:
       timeoutSeconds: 5
       # If Startup Probe is not supported on your Kubernetes cluster, you might want to use "initialDelaySeconds" instead.
       # It delays the initial liveness probe while Jenkins is starting
-      # initialDelaySeconds: 60
+      initialDelaySeconds: 60
     readinessProbe:
       failureThreshold: 3
       httpGet:
@@ -174,7 +175,7 @@ controller:
       timeoutSeconds: 5
       # If Startup Probe is not supported on your Kubernetes cluster, you might want to use "initialDelaySeconds" instead.
       # It delays the initial readyness probe while Jenkins is starting
-      # initialDelaySeconds: 60
+      initialDelaySeconds: 60
 
   # PodDisruptionBudget config
   podDisruptionBudget:
@@ -248,7 +249,7 @@ controller:
   installLatestPlugins: true
 
   # Set to true to download latest dependencies of any plugin that is requested to have the latest version.
-  installLatestSpecifiedPlugins: true
+  installLatestSpecifiedPlugins: false
 
   # List of plugins to install in addition to those listed in controller.installPlugins
   additionalPlugins: [blueocean, ansible, locale, terraform, docker-plugin, docker-slaves, docker-workflow, docker-build-step]
