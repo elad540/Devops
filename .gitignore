@@ -55,7 +55,7 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
-/docker-jenkins/agent.jar
+/jenkins/docker-jenkins/agent.jar
 /remoting/
 /terraform-EC2@tmp/
 

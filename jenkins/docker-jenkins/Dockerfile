@@ -4,7 +4,6 @@ ARG packages='apt-utils unzip wget vim'
 ARG plugins='blueocean kubernetes ansible terraform docker-plugin locale configuration-as-code docker-slaves docker-workflow docker-build-step'
 ARG jenkins_url='192.168.49.2'
 ARG jenkins_port='32000'
-ENV CASC_JENKINS_CONFIG='/var/jenkins_home/jenkins.yaml'
 USER root
 RUN apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y && apt-get autoremove -y && apt-get autoclean -y
 RUN apt-get install -y ${packages}
