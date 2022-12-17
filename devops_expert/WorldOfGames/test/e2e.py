@@ -12,7 +12,7 @@ def test_scores_service():
     if os.getenv("url_score"):
         url_score = str(os.getenv("url_score"))
     else:
-        url_score = "http://172.17.0.2:5000/"
+        url_score = input("enter the url of the score: ")
     options = Options()
     options.add_argument('--headless')
     options.add_argument('--disable-gpu')
