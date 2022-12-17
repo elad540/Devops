@@ -26,26 +26,32 @@ agent {
     }
   }
 
+   environment {
+       DOCKER_HUB_REPO = "shaharco1804/score_flask"
+       CONTAINER_NAME = "score_flask"
+   }
 
     stages {
         stage('Build') {
               steps {
                 container('docker') {
-                  sh 'docker build -t shaharco1804/score_flask:latest --pull devops_expert/WorldOfGames/score/'
+                    sh 'docker build -t $DOCKER_HUB_REPO:latest --pull devops_expert/WorldOfGames/score/'
                 }
             }
         }
         stage('Run') {
               steps {
                 container('docker') {
-                  sh 'cd devops_expert/WorldOfGames && docker run -d --name score shaharco1804/score_flask:latest'
+                    sh 'docker stop $CONTAINER_NAME || true'
+                    sh 'docker rm $CONTAINER_NAME || true'
+                    sh 'docker run -d -p 5000:5000 --name $CONTAINER_NAME $DOCKER_HUB_REPO && pytest devops_expert/WorldOfGames/test/e2e.py --disable-warnings'
                 }
             }
         }
         stage('Test') {
               steps {
                 container('docker') {
-                  sh 'cd devops_expert/WorldOfGames/test && pytest e2e.py'
+                  sh 'pytest devops_expert/WorldOfGames/score/e2e.py --disable-warnings'
                 }
             }
         }
