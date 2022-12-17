@@ -16,7 +16,7 @@ def test_scores_service():
     options = Options()
     options.add_argument('--headless')
     options.add_argument('--disable-gpu')
-    driver = webdriver.Chrome(service=ChromeService("$JENKINS_HOME/tools/chromedriver/chromedriver.ext"), options=options)
+    driver = webdriver.Chrome(service=ChromeService("/var/jenkins_home/tools/chromedriver/chromedriver.ext"), options=options)
     driver.get(url_score)
     score = int(driver.find_element(By.ID, "score").text)
     if 0 <= score <= 1000:
