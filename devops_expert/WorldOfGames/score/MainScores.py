@@ -20,4 +20,4 @@ def handle_bad_request(e):
 app.register_error_handler(500, handle_bad_request)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port='8000', debug=True)
+    app.run(host='0.0.0.0', port='5000', debug=True)
