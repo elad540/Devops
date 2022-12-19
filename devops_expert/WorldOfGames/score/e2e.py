@@ -8,7 +8,7 @@ def test_scores_service():
     if os.getenv("url_score"):
         url_score = str(os.getenv("url_score"))
     else:
-        url_score = input("enter the url of the score: ")
+        url_score = "http://172.19.0.5:4444"
     options = Options()
     options.add_argument('--no-sandbox')
     options.add_argument('--headless')
