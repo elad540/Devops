@@ -23,7 +23,7 @@ def test_scores_service():
         driver.quit()
         assert False
 
-# test_scores_service()
+test_scores_service()
 
 # def main_function():
 #     n = 0
