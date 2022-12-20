@@ -6,7 +6,7 @@ from selenium.webdriver.chrome.options import Options
 def test_scores_service():
     print(str(os.getenv("url_score")))
     if os.getenv("url_score"):
-        url_score = str(os.getenv("url_score"))
+        url_score = 'http://172.19.0.5:5000/'
     else:
         url_score = input("enter the url of the score: ")
     options = Options()
