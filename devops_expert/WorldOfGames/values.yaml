@@ -233,15 +233,18 @@ controller:
   #   -Dcom.sun.management.jmxremote.ssl=false
   # jmxPort: 4000
   # Optionally configure other ports to expose in the controller container
-  extraPorts: []
-  # - name: BuildInfoProxy
-  #   port: 9000
-  #   targetPort: 9010 (Optional: Use to explicitly set targetPort if different from port)
+  extraPorts:
+   - name: selenium
+     port: 4444
+     targetPort: 4444
+   - name: score
+     port: 5000
+     targetPort: 5000
+#  (Optional: Use to explicitly set targetPort if different from port)
 
   # List of plugins to be install during Jenkins controller start
   installPlugins:
     - kubernetes
-    - kubernetes-cli
     - workflow-aggregator
     - git
     - configuration-as-code
@@ -253,7 +256,7 @@ controller:
   installLatestSpecifiedPlugins: true
 
   # List of plugins to install in addition to those listed in controller.installPlugins
-  additionalPlugins: [blueocean, ansible, locale, terraform, docker-plugin, docker-slaves, docker-workflow, docker-build-step, chromedriver,selenium ]
+  additionalPlugins: [blueocean, ansible, locale, terraform, docker-plugin, docker-slaves, docker-workflow, docker-build-step]
 
   # Enable to initialize the Jenkins controller only once on initial installation.
   # Without this, whenever the controller gets restarted (Evicted, etc.) it will fetch plugin updates which has the potential to cause breakage.
