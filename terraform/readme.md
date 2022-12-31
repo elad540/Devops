@@ -22,4 +22,4 @@ $ terraform apply
 
 For AWS infrastructure:
 
-The values for `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` should be saved as environment variables on your workspace.
+The values for `AWS_ACCESS_KEY_ID`,`AWS_SECRET_ACCESS_KEY`,`region` and `amount_of_instance` should be saved as environment variables on your workspace.
