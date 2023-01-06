@@ -44,7 +44,7 @@ agent {
                     sh 'docker rm -f $CONTAINER_NAME || true'
                     sh 'docker rm -f selenium || true'
                     sh 'docker run --rm -d -p 4444:4444 -p 5900:5900 --name selenium shaharco1804/selenium:latest'
-                    sh 'cd devops_expert/WorldOfGames && docker-compose up'
+                    sh 'cd devops_expert/WorldOfGames && docker-compose up -d'
                 }
             }
         }
