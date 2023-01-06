@@ -1,6 +1,6 @@
 from random import randrange
-from devops_expert.WorldOfGames.games.Live import valid_num
-from devops_expert.WorldOfGames.score.Score import add_score
+from games.Live import valid_num
+from Score import add_score
 
 
 def generate_number(diff):
@@ -24,7 +24,7 @@ def play(diff):
     """This function plays the game GuessGame"""
     is_equal = compare_results(generate_number(diff), get_guess_from_user(diff))
     if is_equal:
-        print("you won")
+        # print("you won")
         add_score(diff)
     else:
         print("you lost")

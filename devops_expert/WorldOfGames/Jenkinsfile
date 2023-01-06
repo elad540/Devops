@@ -34,7 +34,7 @@ agent {
         stage('Build') {
               steps {
                 container('docker') {
-                    sh 'docker build -t $DOCKER_HUB_REPO:latest --pull devops_expert/WorldOfGames/score/'
+                    sh 'docker build -t $DOCKER_HUB_REPO:latest --pull devops_expert/WorldOfGames/'
                 }
             }
         }
@@ -44,14 +44,14 @@ agent {
                     sh 'docker rm -f $CONTAINER_NAME || true'
                     sh 'docker rm -f selenium || true'
                     sh 'docker run --rm -d -p 4444:4444 -p 5900:5900 --name selenium shaharco1804/selenium:latest'
-                    sh 'docker run --rm -d -p 5000:5000 --name $CONTAINER_NAME $DOCKER_HUB_REPO'
+                    sh 'docker-compose $DOCKER_HUB_REPO devops_expert/WorldOfGames/docker-compose.yml'
                 }
             }
         }
         stage('Test') {
               steps {
                 container('docker') {
-                    sh 'sleep 5 && pytest devops_expert/WorldOfGames/score/e2e.py'
+                    sh 'sleep 5 && pytest devops_expert/WorldOfGames/e2e.py'
                 }
             }
         }
