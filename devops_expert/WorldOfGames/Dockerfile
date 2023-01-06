@@ -5,4 +5,4 @@ COPY requirements requirements
 RUN pip install --upgrade pip
 RUN pip install -r requirements
 COPY . .
-CMD ["python", "./MainScores.py"]
+CMD ["python", "MainScores.py"]
