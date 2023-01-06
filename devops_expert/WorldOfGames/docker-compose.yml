@@ -4,5 +4,7 @@ services:
   score-flsk:
     container_name: score_flask
     image: shaharco1804/score_flask:latest
+    ports:
+      - "5000:5000"
     volumes:
       - ./:/WorldOfGames
