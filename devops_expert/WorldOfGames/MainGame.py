@@ -1,12 +1,14 @@
-from devops_expert.WorldOfGames.games import CurrencyRouletteGame, GuessGame, MemoryGame, Live
+from games import CurrencyRouletteGame, GuessGame, MemoryGame
+from games.Live import welcome,load_game,difficulty
+
 
 name = input("What is your name: ")
-Live.welcome(name)
+welcome(name)
 while True:
-    game = Live.load_game()
+    game = load_game()
     if game == "q":
         exit()
-    diff = int(Live.difficulty())
+    diff = int(difficulty())
     if int(game) == 1:
         MemoryGame.play(diff)
     elif int(game) == 2:

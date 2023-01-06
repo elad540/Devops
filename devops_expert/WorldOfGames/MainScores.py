@@ -1,15 +1,16 @@
 # run with commend : flask --app MainScores.py run
 import werkzeug
 from flask import Flask, render_template
-from Score import read_score
+from Score import read
 
 app = Flask(__name__, template_folder='template')
 
 
+
+
 @app.route('/')
 def content():
-    score = read_score()
-    return render_template('index.html', score=score)
+    return render_template('index.html', score=read())
 
 
 @app.errorhandler(werkzeug.exceptions.BadRequest)
