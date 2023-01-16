@@ -19,7 +19,7 @@ controller:
   # Used for label app.kubernetes.io/component
   componentName: "jenkins-controller"
   image: "jenkins/jenkins"
-  # tag: "2.375.1-jdk11"
+  tag: "lts"
 #  tagLabel: jdk11
   imagePullPolicy: "Always"
   imagePullSecretName:
@@ -248,6 +248,7 @@ controller:
     - workflow-aggregator
     - git
     - configuration-as-code
+    - job-dsl
 
   # Set to false to download the minimum required version of all dependencies.
   installLatestPlugins: true
@@ -324,17 +325,35 @@ controller:
   # characters: lowercase letters, numbers, and hyphens.  The keys become the name of a configuration yaml file on the controller in
   # /var/jenkins_home/casc_configs (by default) and will be processed by the Configuration as Code Plugin.  The lines after each |
   # become the content of the configuration yaml file.  The first line after this is a JCasC root element, eg jenkins, credentials,
-  # etc.  Best reference is https://<jenkins_url>/configuration-as-code/reference.  The example below creates a welcome message:
+  # etc.  Best reference is https://<jenkins_url>/configuration-as-code/reference.
   JCasC:
     defaultConfig: false
     configUrls: []
     # - https://acme.org/jenkins.yaml
     # Remote URL:s for configuration files.
     configScripts:
-#      welcome-message: |
-#        jenkins:
-#          systemMessage: Welcome to our CI\CD server.  This Jenkins is configured and managed 'as code'.
-#    # Allows adding to the top-level security JCasC section. For legacy,  default the chart includes apiToken configurations
+      jenkins: |
+        jenkins:
+          numExecutors: 0
+      job: |
+        jobs:
+          - script: >
+              pipelineJob('world-of-games') {
+                definition {
+                  cpsScm {
+                    scm {
+                      git {
+                        remote {
+                          url('https://github.com/shaharco99/Devops.git')
+                        }
+                        branch('*/master')
+                      }
+                    }
+                    lightweight()
+                    scriptPath('devops_expert/WorldOfGames/Jenkinsfile')
+                  }
+                }
+              }
       kubernetes: |
         jenkins:
           clouds:
