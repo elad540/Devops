@@ -1,7 +1,7 @@
 import datetime
 import socket
 
-# Get now date
+# Get today date
 curr_date = datetime.date.today()
 # Get the day of the week as an integer, where Monday is 0 and Sunday is 6
 day_of_week_num = curr_date.weekday()
@@ -36,7 +36,7 @@ def main():
     while True:
         conn, addr = s.accept()
         print(f"Connection from {addr}")
-        # Read the file
+        # Read the file and create replacements
         filename = 'dates'
         replacements = {'[DAY_OF_WEEK]': day_of_week, '[CURRENT_DATE]': curr_date}
         get_file(conn, filename, replacements)
