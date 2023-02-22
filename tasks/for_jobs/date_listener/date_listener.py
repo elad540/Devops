@@ -37,7 +37,7 @@ def main():
         conn, addr = s.accept()
         print(f"Connection from {addr}")
         # Read the file
-        filename = './dates'
+        filename = 'dates'
         replacements = {'[DAY_OF_WEEK]': day_of_week, '[CURRENT_DATE]': curr_date}
         get_file(conn, filename, replacements)
 
