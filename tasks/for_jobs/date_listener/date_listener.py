@@ -3,12 +3,8 @@ import socket
 
 # Get today date
 curr_date = datetime.date.today()
-# Get the day of the week as an integer, where Monday is 0 and Sunday is 6
-day_of_week_num = curr_date.weekday()
-# Define a list of day names, starting with Monday
-days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-# Get the title of the day from the list above
-day_of_week = days[day_of_week_num]
+# Get the title of the day from the current date
+day_of_week = curr_date.strftime("%A")
 
 def get_file(conn, filename, replacements):
     with open(filename, 'r') as file:
