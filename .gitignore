@@ -62,4 +62,4 @@ terraform.rc
 #vagrantfile
 /jenkins/vagrant-jenkins/.vagrant/*
 /terraform/*/ansible/hosts
-/devops_expert/WorldOfGames/database.db-journal
+/devops_expert/WorldOfGames/*.db
