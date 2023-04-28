@@ -63,3 +63,4 @@ terraform.rc
 /jenkins/vagrant-jenkins/.vagrant/*
 /terraform/*/ansible/hosts
 /devops_expert/WorldOfGames/*.db
+/devops_expert/WorldOfGames/db/data/
